@@ -37,6 +37,54 @@ header{position:sticky;top:0;z-index:50;background:rgba(244,245,249,.9);backdrop
 @media(max-width:760px){.nav .links{display:none}}
 
 .hero{padding:60px 0 34px}
+
+/* ===== service detail page ===== */
+.detailpage{display:none;padding:26px 0 50px}
+.detailpage.on{display:block}
+.crumb{font-size:12px;color:var(--muted);margin-bottom:18px}
+.crumb a{color:var(--brand);font-weight:600}
+.crumb span{margin:0 6px;color:var(--line)}
+.dt-head{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.dt-top{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.dt-badge{width:64px;height:64px;flex:0 0 64px;border-radius:16px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:19px}
+.dt-name{font-size:26px;font-weight:800;margin:0 0 6px}
+.dt-rating{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.dt-rating .rnum{font-size:22px;font-weight:800;color:var(--amber);line-height:1}
+.dt-rating .rstars{color:var(--amber);letter-spacing:1px}
+.dt-rating .rcnt{font-size:13px;color:var(--muted)}
+.dt-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.dt-meta span{background:#eef1fb;color:var(--brand-dk);font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px}
+.dt-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.dt-actions a,.dt-actions button{flex:1;min-width:170px;text-align:center;border:0;border-radius:10px;padding:13px;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px;text-decoration:none}
+.dt-sec{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
+.dt-sec h3{margin:0 0 4px;font-size:18px}
+.dt-note{font-size:12px;color:var(--muted);margin:0 0 18px}
+.dt-review{border-top:1px solid var(--line);padding:18px 0}
+.dt-review:first-of-type{border-top:0;padding-top:6px}
+.dt-review .rv-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.dt-review .rv-stars{color:var(--amber);letter-spacing:1px;font-size:15px}
+.dt-review .rv-date{font-size:12px;color:var(--muted)}
+.dt-review .rv-who{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px}
+.dt-review .rv-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--brand-dk);background:#e6ebfb;padding:3px 9px;border-radius:999px;margin-right:6px}
+.dt-review .rv-body{font-size:14px;color:#232a3d;line-height:1.8;margin:0 0 10px}
+.dt-review .rv-acts{display:flex;gap:14px;font-size:12px;color:var(--muted)}
+.dt-review .rv-acts button{background:none;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit}
+.dt-review .rv-acts button:hover{border-color:var(--brand);color:var(--brand)}
+.dt-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.dt-info div{border-left:3px solid var(--line);padding-left:12px}
+.dt-info dt{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:3px}
+.dt-info dd{margin:0;font-size:15px;font-weight:700}
+.dt-share{display:flex;gap:8px;flex-wrap:wrap}
+.dt-share a{background:#eef1fb;color:var(--brand-dk);font-size:12px;font-weight:700;padding:8px 14px;border-radius:999px}
+.dt-share a:hover{background:var(--brand);color:#fff}
+.dt-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.dt-related a{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:var(--paper)}
+.dt-related a:hover{border-color:var(--brand)}
+.dt-related .rb{width:30px;height:30px;flex:0 0 30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px}
+.dt-related .rn{font-weight:700;font-size:13px}
+.dt-related .rt{font-size:11px;color:var(--muted)}
+.dt-empty{background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;font-size:13px;color:var(--muted)}
+@media(max-width:600px){.dt-name{font-size:21px}.dt-head,.dt-sec{padding:18px}}
 .livestats{display:flex;gap:14px;margin-bottom:22px;flex-wrap:wrap}
 .lstat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 22px;box-shadow:var(--shadow);min-width:180px}
 .lnum{font-size:34px;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em}
@@ -194,7 +242,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#"><span class="mark">声</span>利用者の声</a>
+    <a class="logo" href="#" onclick="closeSvc();return false;"><span class="mark">声</span>利用者の声</a>
     <nav class="links">
       <a href="#reviews">口コミ</a>
       <a href="#popular">注目</a>
@@ -206,6 +254,16 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
   </div>
 </header>
 
+<!-- ===== SERVICE DETAIL PAGE ===== -->
+<div id="detailPage" class="detailpage">
+  <div class="wrap">
+    <nav class="crumb" id="dtCrumb"></nav>
+    <div id="dtBody"></div>
+  </div>
+</div>
+
+<!-- ===== TOP PAGE ===== -->
+<div id="topPage">
 <div class="hero">
   <div class="wrap">
     <div class="livestats" id="liveStats">
@@ -329,6 +387,8 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
   </div>
 </section>
 
+</div><!-- /topPage -->
+
 <footer>
   <div class="wrap">
     <div class="grid">
@@ -353,14 +413,6 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
     <div class="copy">© 2026 利用者の声. プロトタイプ（サンプルデータ）</div>
   </div>
 </footer>
-
-<!-- SERVICE DETAIL MODAL -->
-<div class="overlay" id="svcOverlay">
-  <div class="modal" id="svcModal">
-    <span class="closex" onclick="closeSvc()">✕</span>
-    <div id="svcModalBody"></div>
-  </div>
-</div>
 
 <!-- MODAL -->
 <div class="overlay" id="overlay">
@@ -662,34 +714,113 @@ const popular=[
 
 function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
 
-/* ---- service ranking with category filter + detail modal ---- */
+/* ---- service detail page ---- */
 function openSvc(enc){
   const name=decodeURIComponent(enc);
   const s=services.find(x=>x.name===name); if(!s)return;
-  document.getElementById('svcModalBody').innerHTML=`
-    <div style="display:flex;gap:14px;align-items:center;margin-bottom:12px">
-      <div class="logo-badge" style="background:${s.color};width:56px;height:56px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px">${s.badge}</div>
-      <div>
-        <h3 style="margin:0">${s.name}</h3>
+  const mine=reviews.filter(r=>r.svc===s.name);
+  const avg=mine.length?(mine.reduce((a,r)=>a+r.stars,0)/mine.length):s.score;
+  const cnt=mine.length?mine.length:0;
+  const related=services.filter(x=>x.cat===s.cat&&x.name!==s.name).slice(0,6);
+  const shareUrl=location.href.split('#')[0]+'#service/'+encodeURIComponent(s.name);
+  const shareTxt=encodeURIComponent(s.name+'の口コミ・評判 | 利用者の声');
+
+  document.getElementById('dtCrumb').innerHTML=
+    `<a href="#" onclick="closeSvc();return false;">ホーム</a><span>/</span>`+
+    `<a href="#" onclick="closeSvc();return false;">${s.catLabel}</a><span>/</span>${s.name}`;
+
+  document.getElementById('dtBody').innerHTML=`
+  <div class="dt-head">
+    <div class="dt-top">
+      <div class="dt-badge" style="background:${s.color}">${s.badge}</div>
+      <div style="flex:1;min-width:220px">
+        <h1 class="dt-name">${s.name}</h1>
+        <div class="dt-rating">
+          ${cnt?`<span class="rnum">${avg.toFixed(1)}</span><span class="rstars">${starStr(Math.round(avg))}</span><span class="rcnt">(${cnt}件)</span>
+          <a href="#dtReviews" style="font-size:12px;color:var(--brand);font-weight:700">口コミを見る →</a>`
+          :`<span class="rcnt">まだ口コミがありません</span>`}
+        </div>
         <div style="font-size:13px;color:var(--muted);font-weight:600">${s.type}</div>
+        <div class="dt-meta"><span>${s.catLabel}</span><span>匿名で口コミ投稿可</span></div>
       </div>
     </div>
-    <div style="display:flex;gap:18px;align-items:baseline;margin-bottom:14px">
-      <div><span style="font-size:28px;font-weight:800;color:var(--amber);line-height:1">${s.score.toFixed(1)}</span> <span class="stars" style="color:var(--amber)">${starStr(Math.round(s.score))}</span></div>
-      <div style="font-size:12px;color:var(--muted)">口コミ ${s.cnt.toLocaleString()}件 ・ カテゴリ：${s.catLabel}</div>
+    <p style="font-size:14px;color:#232a3d;line-height:1.8;margin:16px 0 0">${s.desc}</p>
+    <div class="dt-actions">
+      <a href="${s.url}" target="_blank" rel="noopener" class="btn-primary" style="background:var(--brand);color:#fff">公式サイトを見る ↗</a>
+      <button class="btn-primary" style="background:var(--ink);color:#fff" onclick="openModal()">このサービスの口コミを書く</button>
     </div>
-    <p style="font-size:14px;color:#232a3d;line-height:1.75;margin:0 0 16px">${s.desc}</p>
-    <div style="background:#f0f2fa;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--muted)">
-      このページの★評価・口コミ件数はサンプルデータです。実際の口コミは利用者の投稿で構成される想定です。
+  </div>
+
+  <div class="dt-sec" id="dtReviews">
+    <h3>口コミ・評判</h3>
+    <p class="dt-note">※口コミは投稿者個人の体験・意見であり、当サイトの見解を示すものではありません。不適切な投稿は運営へご報告ください。</p>
+    ${cnt? mine.map(r=>`
+      <div class="dt-review">
+        <div class="rv-top">
+          <span class="rv-stars">${starStr(r.stars)} <span style="font-size:12px;color:var(--muted)">${r.stars}.0</span></span>
+          <span class="rv-date">${r.date}</span>
+        </div>
+        <div class="rv-who"><span class="rv-tag">${r.tag}</span>${r.who}</div>
+        <p class="rv-body">${r.body}</p>
+        <div class="rv-acts">
+          <button onclick="thanks(this)">参考になった</button>
+          <button onclick="alert('通報を受け付けました（プロトタイプ）')">通報</button>
+        </div>
+      </div>`).join('')
+    : `<div class="dt-empty">このサービスの口コミはまだありません。<br>あなたの体験が最初の1件になります。</div>`}
+    <div style="margin-top:18px">
+      <button class="btn-primary" style="border:0;border-radius:10px;padding:12px 20px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--brand);color:#fff" onclick="openModal()">このサービスの口コミを書く（匿名OK）</button>
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <a href="${s.url}" target="_blank" rel="noopener" class="btn-primary" style="flex:1;text-align:center;border-radius:10px;padding:12px;font-weight:700;text-decoration:none;min-width:140px">公式サイトを見る ↗</a>
-      <button class="btn-primary" style="flex:1;min-width:140px;border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer;background:var(--ink)" onclick="closeSvc();openModal();">このサービスの口コミを書く</button>
-    </div>`;
-  document.getElementById('svcOverlay').classList.add('on');
+  </div>
+
+  <div class="dt-sec">
+    <h3>基本情報</h3>
+    <p class="dt-note">掲載情報はサービス公表内容および転職アンテナ掲載情報を元にしています。</p>
+    <dl class="dt-info">
+      <div><dt>サービス種別</dt><dd>${s.type}</dd></div>
+      <div><dt>カテゴリ</dt><dd>${s.catLabel}</dd></div>
+      <div><dt>口コミ件数</dt><dd>${cnt}件</dd></div>
+      <div><dt>総合評価</dt><dd>${cnt?avg.toFixed(1):'—'}</dd></div>
+    </dl>
+  </div>
+
+  <div class="dt-sec">
+    <h3>共有</h3>
+    <p class="dt-note">このページを共有する</p>
+    <div class="dt-share">
+      <a href="https://twitter.com/intent/tweet?text=${shareTxt}&url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener">X (Twitter)</a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://line.me/R/msg/text/?${shareTxt}%20${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener">LINE</a>
+    </div>
+  </div>
+
+  ${related.length?`
+  <div class="dt-sec">
+    <h3>同じカテゴリのサービス（${s.catLabel}）</h3>
+    <p class="dt-note">あわせて比較されているサービス</p>
+    <div class="dt-related">
+      ${related.map(r=>`
+        <a href="#" onclick="openSvc('${encodeURIComponent(r.name)}');return false;">
+          <span class="rb" style="background:${r.color}">${r.badge}</span>
+          <span><span class="rn">${r.name}</span><br><span class="rt">${r.type}</span></span>
+        </a>`).join('')}
+    </div>
+  </div>`:''}
+
+  <div style="text-align:center;margin-top:24px">
+    <a href="#" onclick="closeSvc();return false;" style="color:var(--brand);font-weight:700;font-size:14px">← トップに戻る</a>
+  </div>`;
+
+  document.getElementById('topPage').style.display='none';
+  document.getElementById('detailPage').classList.add('on');
+  window.scrollTo(0,0);
 }
-function closeSvc(){document.getElementById('svcOverlay').classList.remove('on');}
-document.getElementById('svcOverlay').addEventListener('click',e=>{if(e.target.id==='svcOverlay')closeSvc();});
+function thanks(btn){btn.textContent='参考になった ✓';btn.disabled=true;btn.style.color='var(--good)';btn.style.borderColor='var(--good)';}
+function closeSvc(){
+  document.getElementById('detailPage').classList.remove('on');
+  document.getElementById('topPage').style.display='';
+  window.scrollTo(0,0);
+}
 
 /* ---- live search ---- */
 const searchInput=document.getElementById('searchInput');
@@ -743,7 +874,7 @@ document.addEventListener('click',e=>{
   if(!e.target.closest('.searchwrap'))searchResults.classList.remove('on');
 });
 const reviewCard=r=>`
-  <a class="rcard" href="#">
+  <a class="rcard" href="#" onclick="openSvc('${encodeURIComponent(r.svc)}');return false;">
     <div class="top"><span class="tag">${r.tag}</span><span>${r.date}</span></div>
     <div class="stars">${starStr(r.stars)} <span style="color:var(--muted);font-size:12px">${r.stars}.0</span></div>
     <div class="body">${r.body}</div>
@@ -751,7 +882,7 @@ const reviewCard=r=>`
   </a>`;
 document.getElementById('reviewGrid').innerHTML=(reviews.map(reviewCard).join('')).repeat(2);
 document.getElementById('popularList').innerHTML=popular.map(p=>`
-  <li><a href="#"><span><span class="pname">${p.name}</span><br><span class="ptype">${p.type}</span></span><span class="pv">閲覧 ${p.pv}</span></a></li>`).join('');
+  <li><a href="#" onclick="openSvc('${encodeURIComponent(p.name)}');return false;"><span><span class="pname">${p.name}</span><br><span class="ptype">${p.type}</span></span><span class="pv">閲覧 ${p.pv}</span></a></li>`).join('');
 const rank5=[
   {name:"リクルートエージェント",type:"エージェント型",score:4.8,cnt:3120},
   {name:"doda",type:"総合型・エージェント型",score:4.7,cnt:2840},
@@ -760,7 +891,7 @@ const rank5=[
   {name:"ビズリーチ",type:"スカウト型・ハイクラス",score:4.5,cnt:2210},
 ];
 document.getElementById('rank5List').innerHTML=rank5.map((r,i)=>`
-  <li><a href="#">
+  <li><a href="#" onclick="openSvc('${encodeURIComponent(r.name)}');return false;">
     <span class="medal">${i+1}</span>
     <span class="r5body"><span class="r5name">${r.name}</span><br><span class="r5type">${r.type}</span></span>
     <span class="r5score"><span class="num">${r.score.toFixed(1)}</span> <span class="st">${starStr(Math.round(r.score))}</span><br><span class="cnt">口コミ ${r.cnt.toLocaleString()}件</span></span>
