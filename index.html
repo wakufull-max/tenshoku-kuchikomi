@@ -485,7 +485,9 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
     <span class="closex" onclick="closeModal()">✕</span>
     <h3>口コミを投稿する</h3>
     <p class="note">利用した転職サービスについて。匿名・所要2〜3分。</p>
-    <div class="field"><label>サービス名</label><input type="text" placeholder="例：〇〇エージェント"></div>
+    <div class="field"><label>サービス名</label>
+      <select id="postService"><option value="">選択してください</option></select>
+    </div>
     <div class="field"><label>利用ステータス</label>
       <select>
         <option>登録・会員情報の入力のみ</option>
@@ -778,26 +780,40 @@ const popular=[
 ];
 
 const details={
-  "リクルートエージェント":{company:"株式会社リクルート",fee:"無料（求職者）",area:"全国47都道府県＋海外",public:"約76万件",private:"約27万件",target:"20代〜50代 / 全職種",support:"キャリア面談、書類添削、面接対策、日程調整、年収交渉、面接力向上セミナー",strong:["業界最大級の求人数（公開・非公開とも国内トップクラス）","全国に拠点があり地方・UIターンにも対応","転職支援実績が豊富でスピード感がある"],weak:["連絡や紹介のペースが速く、事務的に感じる場合がある","サポート期間の目安が約3ヶ月と区切られている"],fit:"求人を幅広く比較したい人、短期集中で決めたい人、初めての転職で情報量を確保したい人"},
-  "doda":{company:"パーソルキャリア株式会社",fee:"無料（求職者）",area:"全国",public:"約25万件",private:"非公開",target:"20代〜40代 / 全職種",support:"求人検索、エージェントサービス、スカウト、年収査定、キャリアタイプ診断、レジュメビルダー",strong:["求人検索・エージェント・スカウトを1つで使い分けられる","診断ツールが充実し自己分析に使える","求人数が総合型として国内最大級"],weak:["スカウトやメールの通知が多くなりやすい","担当者によって提案の質に差が出ることがある"],fit:"自分で探しつつ相談もしたい人、まず市場を広く見たい人"},
-  "マイナビ転職エージェント":{company:"株式会社マイナビ",fee:"無料（求職者）",area:"全国",public:"非公開（非公開求人が中心）",private:"多数",target:"20代〜30代前半 / 全職種",support:"キャリア面談、書類添削、面接対策、企業別対策、入社後フォロー",strong:["20〜30代前半の若手求人に強い","中小企業・地方求人の取り扱いも多い","書類添削・面接対策が丁寧"],weak:["ハイクラス求人は他社に比べ少なめ","紹介求人が希望とずれる場合がある"],fit:"20〜30代前半で初めての転職、丁寧なサポートを受けたい人"},
-  "ビズリーチ":{company:"株式会社ビズリーチ",fee:"無料プラン／有料プランあり",area:"全国＋海外",public:"約13万件",private:"ヘッドハンター経由多数",target:"30代〜50代 / 管理職・専門職",support:"スカウト受信、ヘッドハンター検索・相談、公募求人への応募",strong:["年収600万円以上のハイクラス求人が中心","企業・ヘッドハンター双方からスカウトが届く","自分の市場価値を測りやすい"],weak:["一部機能は有料プランが必要","経験が浅いとスカウトが届きにくい"],fit:"現年収600万円以上、管理職・専門職、まず市場価値を知りたい人"},
-  "JACリクルートメント":{company:"株式会社ジェイエイシーリクルートメント",fee:"無料（求職者）",area:"全国＋アジア・欧州",public:"約2万件",private:"多数",target:"30代〜50代 / 管理職・専門職・外資",support:"業界別コンサルタントによる面談、英文レジュメ添削、外資系面接対策",strong:["ミドル・ハイクラスと外資系に強い","業界ごとに担当が分かれ専門性が高い","企業の採用背景まで説明してくれる"],weak:["若手・未経験向けの求人は少ない","求人数自体は総合型より少ない"],fit:"管理職・専門職、外資系やグローバル企業を狙う人"},
-  "リクルートダイレクトスカウト":{company:"株式会社リクルート",fee:"無料（求職者）",area:"全国",public:"約45万件",private:"—",target:"30代〜50代 / 管理職・専門職",support:"レジュメ登録によるスカウト受信、ヘッドハンター指名相談",strong:["登録後は待つだけでスカウトが届く","ハイクラス・年収帯の高い求人が中心","無料で全機能を利用できる"],weak:["職種によりスカウト数に差がある","自分から応募する仕組みは弱め"],fit:"在職中で忙しい人、まずオファーの相場を知りたい人"},
-  "レバテックキャリア":{company:"レバレジーズ株式会社",fee:"無料（求職者）",area:"首都圏・関西・福岡中心",public:"約2.5万件",private:"多数",target:"20代〜40代 / ITエンジニア・クリエイター",support:"技術理解のあるアドバイザーによる面談、技術面接対策、年収交渉",strong:["IT・Web業界に特化し技術の話が通じる","職務経歴書の技術的な見せ方まで添削","年収アップ率が高い"],weak:["首都圏中心で地方求人は少なめ","未経験者向け求人はほぼない"],fit:"実務経験のあるエンジニア、技術を正当に評価されたい人"},
-  "レバウェル看護":{company:"レバレジーズメディカルケア株式会社",fee:"無料（求職者）",area:"全国",public:"約14万件",private:"多数",target:"看護師・准看護師・保健師・助産師",support:"専任アドバイザーによる面談、職場情報の提供、面接同行、条件交渉",strong:["看護師向けとして国内最大級の求人数","訪問取材による職場のリアルな情報","24時間相談に対応"],weak:["連絡の頻度が多いと感じる利用者もいる","希望と異なる求人が届く場合がある"],fit:"職場の内情を知ってから決めたい看護師、条件交渉を任せたい人"},
-  "ファルマスタッフ":{company:"株式会社メディカルリソース（日本調剤グループ）",fee:"無料（求職者）",area:"全国",public:"約6万件",private:"多数",target:"薬剤師（正社員・派遣・パート）",support:"面談、職場見学の同行、条件交渉、派遣・パートの就業サポート",strong:["薬剤師支援20年以上の実績","派遣・パートの高時給求人が豊富","相談満足度が高い"],weak:["都市部に比べ地方の求人は少なめ","派遣中心の提案になる場合がある"],fit:"働き方を選びたい薬剤師、時給や条件を重視する人"},
-  "マイナビ保育士":{company:"株式会社マイナビ",fee:"無料（求職者）",area:"全国（首都圏・関西中心）",public:"約1.7万件",private:"多数",target:"保育士・幼稚園教諭",support:"キャリア面談、書類添削、面接対策、園見学の調整、条件交渉",strong:["園の雰囲気や人間関係まで教えてくれる","書類・面接対策のサポートが手厚い","非公開求人が多い"],weak:["登録後の電話連絡が多め","地方は求人が限られる"],fit:"初めて転職する保育士、園の内情を知ってから決めたい人"},
-  "転職サイトGreen":{company:"株式会社アトラエ",fee:"無料（求職者）",area:"全国（首都圏中心）",public:"約3万件",private:"—",target:"20代〜30代 / IT・Web業界",support:"企業と直接やり取り、カジュアル面談、気になる機能",strong:["社員インタビューやオフィス写真で社風が分かる","企業の人事と直接やり取りできる","カジュアル面談から始められる"],weak:["エージェントの伴走支援はない","首都圏のIT企業が中心"],fit:"自分で企業を見極めたい人、IT・Web業界志望者"},
-  "マイナビジョブ20's":{company:"株式会社マイナビワークス",fee:"無料（求職者）",area:"全国（首都圏・関西・東海中心）",public:"約6千件",private:"多数",target:"20代・第二新卒・既卒",support:"適性診断、キャリア面談、書類添削、面接対策、入社後フォロー",strong:["20代・第二新卒に完全特化","全求人が20代を対象とした募集","適性診断で自己分析ができる"],weak:["30代以上は利用できない","地方の求人は限られる"],fit:"社会人経験が浅い20代、未経験職種に挑戦したい人"},
-  "ポジウィルキャリア":{company:"ポジウィル株式会社",fee:"有料（コース制）",area:"全国（オンライン）",public:"—（求人紹介なし）",private:"—",target:"20代〜30代",support:"キャリアコーチングによる自己分析、キャリア設計、意思決定支援",strong:["求人紹介ではなくキャリアの方向性から相談できる","利害関係がないため中立的な助言が得られる","転職以外の選択肢も一緒に検討できる"],weak:["有料であること","求人紹介は行わないため転職サービスとの併用が前提"],fit:"何がしたいか分からない人、転職すべきか迷っている人"},
-  "ロバート・ウォルターズ":{company:"ロバート・ウォルターズ・ジャパン株式会社",fee:"無料（求職者）",area:"東京・大阪中心",public:"非公開",private:"多数",target:"30代〜50代 / 外資・グローバル",support:"バイリンガルコンサルタントによる面談、英文レジュメ添削、外資面接対策",strong:["外資系・グローバル企業に強い","バイリンガル人材の支援実績が豊富","企業とのやり取りがスムーズ"],weak:["英語力が求められる求人が中心","地方求人はほとんどない"],fit:"英語を使う仕事、外資系企業を目指す人"},
-  "ミイダス":{company:"ミイダス株式会社（パーソルグループ）",fee:"無料（求職者）",area:"全国",public:"約50万件",private:"—",target:"20代〜40代 / 全職種",support:"市場価値診断、コンピテンシー診断、面接確約オファー受信",strong:["市場価値や適性を診断で可視化できる","面接確約オファーが届く","登録後は待つだけで進められる"],weak:["オファーやメールの通知が多くなりやすい","担当者による個別サポートはない"],fit:"自分の市場価値を知りたい人、まず診断から始めたい人"},
-  "レバウェル介護":{company:"レバレジーズメディカルケア株式会社",fee:"無料（求職者）",area:"全国",public:"約20万件",private:"多数",target:"介護職・ケアマネジャー・生活相談員",support:"専任アドバイザーによる面談、職場情報提供、面接対策、条件交渉",strong:["介護職向けとして求人数が最大級","施設形態や働き方から探せる","資格や経験に応じた提案"],weak:["施設ごとの内情までは分からない場合がある","連絡頻度が多いと感じる人もいる"],fit:"施設形態を比較したい介護職、資格を活かしたい人"},
-  "アサイン（ASSIGN）":{company:"株式会社アサイン",fee:"無料（求職者）",area:"全国（首都圏中心）",public:"非公開",private:"多数",target:"20代〜30代 / ハイエンド・コンサル",support:"価値観に基づくキャリア設計、ケース面接対策、選考ペース管理",strong:["中長期のキャリアから逆算した提案","ケース面接など選考対策が具体的","20〜30代ハイエンド層に特化"],weak:["対象が限定的（学歴・職歴条件がある場合も）","求人数は大手より少ない"],fit:"コンサル・事業会社の上位ポジションを目指す20〜30代"},
+  "リクルートエージェント":{company:"株式会社リクルート",founded:"1977年（リクルート創業1960年）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国47都道府県＋海外",offices:"全国16拠点",public:"約76万件",private:"約27万件",target:"20代〜50代 / 全職種",ages:"20代〜50代",meeting:"対面／電話／オンライン",period:"約3ヶ月（延長相談可）",support:"キャリア面談、書類添削、面接対策、日程調整、年収交渉、面接力向上セミナー",strong:["業界最大級の求人数（公開・非公開とも国内トップクラス）","全国に拠点があり地方・UIターンにも対応","転職支援実績が豊富でスピード感がある"],weak:["連絡や紹介のペースが速く、事務的に感じる場合がある","サポート期間の目安が約3ヶ月と区切られている"],fit:"求人を幅広く比較したい人、短期集中で決めたい人、初めての転職で情報量を確保したい人"},
+  "doda":{company:"パーソルキャリア株式会社",founded:"1989年（パーソルキャリア）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"全国11拠点",public:"約25万件",private:"非公開",target:"20代〜40代 / 全職種",ages:"20代〜40代",meeting:"対面／電話／オンライン",period:"定めなし",support:"求人検索、エージェントサービス、スカウト、年収査定、キャリアタイプ診断、レジュメビルダー",strong:["求人検索・エージェント・スカウトを1つで使い分けられる","診断ツールが充実し自己分析に使える","求人数が総合型として国内最大級"],weak:["スカウトやメールの通知が多くなりやすい","担当者によって提案の質に差が出ることがある"],fit:"自分で探しつつ相談もしたい人、まず市場を広く見たい人"},
+  "マイナビ転職エージェント":{company:"株式会社マイナビ",founded:"1973年（マイナビ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"全国12拠点",public:"非公開（非公開求人が中心）",private:"多数",target:"20代〜30代前半 / 全職種",ages:"20代〜30代前半",meeting:"対面／電話／オンライン",period:"定めなし",support:"キャリア面談、書類添削、面接対策、企業別対策、入社後フォロー",strong:["20〜30代前半の若手求人に強い","中小企業・地方求人の取り扱いも多い","書類添削・面接対策が丁寧"],weak:["ハイクラス求人は他社に比べ少なめ","紹介求人が希望とずれる場合がある"],fit:"20〜30代前半で初めての転職、丁寧なサポートを受けたい人"},
+  "ビズリーチ":{company:"株式会社ビズリーチ",founded:"2009年",license:"有料職業紹介事業",fee:"無料プラン／有料プランあり",area:"全国＋海外",offices:"東京・大阪・名古屋・福岡",public:"約13万件",private:"ヘッドハンター経由多数",target:"30代〜50代 / 管理職・専門職",ages:"30代〜50代",meeting:"スカウト経由で個別調整",period:"定めなし",support:"スカウト受信、ヘッドハンター検索・相談、公募求人への応募",strong:["年収600万円以上のハイクラス求人が中心","企業・ヘッドハンター双方からスカウトが届く","自分の市場価値を測りやすい"],weak:["一部機能は有料プランが必要","経験が浅いとスカウトが届きにくい"],fit:"現年収600万円以上、管理職・専門職、まず市場価値を知りたい人"},
+  "JACリクルートメント":{company:"株式会社ジェイエイシーリクルートメント",founded:"1988年",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国＋アジア・欧州",offices:"国内11拠点＋アジア・欧州",public:"約2万件",private:"多数",target:"30代〜50代 / 管理職・専門職・外資",ages:"30代〜50代",meeting:"対面／オンライン",period:"定めなし",support:"業界別コンサルタントによる面談、英文レジュメ添削、外資系面接対策",strong:["ミドル・ハイクラスと外資系に強い","業界ごとに担当が分かれ専門性が高い","企業の採用背景まで説明してくれる"],weak:["若手・未経験向けの求人は少ない","求人数自体は総合型より少ない"],fit:"管理職・専門職、外資系やグローバル企業を狙う人"},
+  "リクルートダイレクトスカウト":{company:"株式会社リクルート",founded:"1960年（リクルート）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"オンライン中心",public:"約45万件",private:"—",target:"30代〜50代 / 管理職・専門職",ages:"30代〜50代",meeting:"ヘッドハンターと個別調整",period:"定めなし",support:"レジュメ登録によるスカウト受信、ヘッドハンター指名相談",strong:["登録後は待つだけでスカウトが届く","ハイクラス・年収帯の高い求人が中心","無料で全機能を利用できる"],weak:["職種によりスカウト数に差がある","自分から応募する仕組みは弱め"],fit:"在職中で忙しい人、まずオファーの相場を知りたい人"},
+  "レバテックキャリア":{company:"レバレジーズ株式会社",founded:"2005年（レバレジーズ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"首都圏・関西・福岡中心",offices:"東京・大阪・名古屋・福岡",public:"約2.5万件",private:"多数",target:"20代〜40代 / ITエンジニア・クリエイター",ages:"20代〜40代",meeting:"対面／オンライン",period:"定めなし",support:"技術理解のあるアドバイザーによる面談、技術面接対策、年収交渉",strong:["IT・Web業界に特化し技術の話が通じる","職務経歴書の技術的な見せ方まで添削","年収アップ率が高い"],weak:["首都圏中心で地方求人は少なめ","未経験者向け求人はほぼない"],fit:"実務経験のあるエンジニア、技術を正当に評価されたい人"},
+  "レバウェル看護":{company:"レバレジーズメディカルケア株式会社",founded:"2005年（レバレジーズ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"全国18拠点",public:"約14万件",private:"多数",target:"看護師・准看護師・保健師・助産師",ages:"20代〜50代",meeting:"電話／オンライン／対面",period:"定めなし",support:"専任アドバイザーによる面談、職場情報の提供、面接同行、条件交渉",strong:["看護師向けとして国内最大級の求人数","訪問取材による職場のリアルな情報","24時間相談に対応"],weak:["連絡の頻度が多いと感じる利用者もいる","希望と異なる求人が届く場合がある"],fit:"職場の内情を知ってから決めたい看護師、条件交渉を任せたい人"},
+  "ファルマスタッフ":{company:"株式会社メディカルリソース（日本調剤グループ）",founded:"1997年",license:"有料職業紹介事業・労働者派遣事業",fee:"無料（求職者）",area:"全国",offices:"全国12拠点",public:"約6万件",private:"多数",target:"薬剤師（正社員・派遣・パート）",ages:"20代〜60代",meeting:"対面／電話／オンライン",period:"定めなし",support:"面談、職場見学の同行、条件交渉、派遣・パートの就業サポート",strong:["薬剤師支援20年以上の実績","派遣・パートの高時給求人が豊富","相談満足度が高い"],weak:["都市部に比べ地方の求人は少なめ","派遣中心の提案になる場合がある"],fit:"働き方を選びたい薬剤師、時給や条件を重視する人"},
+  "マイナビ保育士":{company:"株式会社マイナビ",founded:"1973年（マイナビ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国（首都圏・関西中心）",offices:"首都圏・関西・東海中心",public:"約1.7万件",private:"多数",target:"保育士・幼稚園教諭",ages:"20代〜40代",meeting:"対面／電話／オンライン",period:"定めなし",support:"キャリア面談、書類添削、面接対策、園見学の調整、条件交渉",strong:["園の雰囲気や人間関係まで教えてくれる","書類・面接対策のサポートが手厚い","非公開求人が多い"],weak:["登録後の電話連絡が多め","地方は求人が限られる"],fit:"初めて転職する保育士、園の内情を知ってから決めたい人"},
+  "転職サイトGreen":{company:"株式会社アトラエ",founded:"2003年（アトラエ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国（首都圏中心）",offices:"東京",public:"約3万件",private:"—",target:"20代〜30代 / IT・Web業界",ages:"20代〜30代",meeting:"企業と直接（カジュアル面談）",period:"定めなし",support:"企業と直接やり取り、カジュアル面談、気になる機能",strong:["社員インタビューやオフィス写真で社風が分かる","企業の人事と直接やり取りできる","カジュアル面談から始められる"],weak:["エージェントの伴走支援はない","首都圏のIT企業が中心"],fit:"自分で企業を見極めたい人、IT・Web業界志望者"},
+  "マイナビジョブ20's":{company:"株式会社マイナビワークス",founded:"1973年（マイナビ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国（首都圏・関西・東海中心）",offices:"東京・大阪・名古屋ほか",public:"約6千件",private:"多数",target:"20代・第二新卒・既卒",ages:"20代限定",meeting:"対面／オンライン",period:"定めなし",support:"適性診断、キャリア面談、書類添削、面接対策、入社後フォロー",strong:["20代・第二新卒に完全特化","全求人が20代を対象とした募集","適性診断で自己分析ができる"],weak:["30代以上は利用できない","地方の求人は限られる"],fit:"社会人経験が浅い20代、未経験職種に挑戦したい人"},
+  "ポジウィルキャリア":{company:"ポジウィル株式会社",founded:"2017年",license:"キャリアコーチング（求人紹介なし）",fee:"有料（コース制）",area:"全国（オンライン）",offices:"オンライン完結",public:"—（求人紹介なし）",private:"—",target:"20代〜30代",ages:"20代〜30代",meeting:"オンライン",period:"コースによる（35日〜）",support:"キャリアコーチングによる自己分析、キャリア設計、意思決定支援",strong:["求人紹介ではなくキャリアの方向性から相談できる","利害関係がないため中立的な助言が得られる","転職以外の選択肢も一緒に検討できる"],weak:["有料であること","求人紹介は行わないため転職サービスとの併用が前提"],fit:"何がしたいか分からない人、転職すべきか迷っている人"},
+  "ロバート・ウォルターズ":{company:"ロバート・ウォルターズ・ジャパン株式会社",founded:"1985年（日本進出2000年）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"東京・大阪中心",offices:"東京・大阪",public:"非公開",private:"多数",target:"30代〜50代 / 外資・グローバル",ages:"30代〜50代",meeting:"対面／オンライン",period:"定めなし",support:"バイリンガルコンサルタントによる面談、英文レジュメ添削、外資面接対策",strong:["外資系・グローバル企業に強い","バイリンガル人材の支援実績が豊富","企業とのやり取りがスムーズ"],weak:["英語力が求められる求人が中心","地方求人はほとんどない"],fit:"英語を使う仕事、外資系企業を目指す人"},
+  "ミイダス":{company:"ミイダス株式会社（パーソルグループ）",founded:"2015年",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"オンライン完結",public:"約50万件",private:"—",target:"20代〜40代 / 全職種",ages:"20代〜40代",meeting:"企業と直接",period:"定めなし",support:"市場価値診断、コンピテンシー診断、面接確約オファー受信",strong:["市場価値や適性を診断で可視化できる","面接確約オファーが届く","登録後は待つだけで進められる"],weak:["オファーやメールの通知が多くなりやすい","担当者による個別サポートはない"],fit:"自分の市場価値を知りたい人、まず診断から始めたい人"},
+  "レバウェル介護":{company:"レバレジーズメディカルケア株式会社",founded:"2005年（レバレジーズ）",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国",offices:"全国16拠点",public:"約20万件",private:"多数",target:"介護職・ケアマネジャー・生活相談員",ages:"20代〜60代",meeting:"電話／オンライン／対面",period:"定めなし",support:"専任アドバイザーによる面談、職場情報提供、面接対策、条件交渉",strong:["介護職向けとして求人数が最大級","施設形態や働き方から探せる","資格や経験に応じた提案"],weak:["施設ごとの内情までは分からない場合がある","連絡頻度が多いと感じる人もいる"],fit:"施設形態を比較したい介護職、資格を活かしたい人"},
+  "アサイン（ASSIGN）":{company:"株式会社アサイン",founded:"2016年",license:"有料職業紹介事業",fee:"無料（求職者）",area:"全国（首都圏中心）",offices:"東京",public:"非公開",private:"多数",target:"20代〜30代 / ハイエンド・コンサル",ages:"20代〜30代",meeting:"対面／オンライン",period:"定めなし",support:"価値観に基づくキャリア設計、ケース面接対策、選考ペース管理",strong:["中長期のキャリアから逆算した提案","ケース面接など選考対策が具体的","20〜30代ハイエンド層に特化"],weak:["対象が限定的（学歴・職歴条件がある場合も）","求人数は大手より少ない"],fit:"コンサル・事業会社の上位ポジションを目指す20〜30代"},
 };
 
 function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
+
+/* サービスのロゴ（公式ファビコン）。取得できない場合は色付きバッジにフォールバック */
+function logoHtml(s, size, radius){
+  const r=radius||Math.round(size*0.26);
+  const fallback=`<span style="width:100%;height:100%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:${Math.round(size*0.34)}px">${s.badge}</span>`;
+  let host='';
+  try{ if(s.url && s.url.indexOf('tenshoku-antenna.com')===-1) host=new URL(s.url).hostname; }catch(e){}
+  const img=host?`<img src="https://www.google.com/s2/favicons?sz=64&domain=${host}" alt="${s.name}のロゴ" loading="lazy"
+      style="width:${Math.round(size*0.62)}px;height:${Math.round(size*0.62)}px;object-fit:contain;display:block"
+      onerror="this.style.display='none';this.parentNode.querySelector('.lg-fb').style.display='grid'">`:'';
+  return `<span class="svc-logo" style="width:${size}px;height:${size}px;flex:0 0 ${size}px;border-radius:${r}px;background:${host?'#fff':s.color};border:1px solid ${host?'var(--line)':'transparent'};display:grid;place-items:center;overflow:hidden">
+    ${img}<span class="lg-fb" style="display:${host?'none':'grid'};width:100%;height:100%;place-items:center;background:${s.color};color:#fff;font-weight:800;font-size:${Math.round(size*0.34)}px">${s.badge}</span>
+  </span>`;
+}
 
 /* ---- 転職サイト検索ページ ---- */
 const spCatOrder=[
@@ -839,7 +855,7 @@ function spRenderList(){
   grid.innerHTML=list.map(s=>{
     const rc=reviewCountFor(s.name);
     return `<div class="sp-card" data-name="${encodeURIComponent(s.name)}">
-      <span class="sp-badge" style="background:${s.color}">${s.badge}</span>
+      ${logoHtml(s,42,11)}
       <span style="flex:1;min-width:0">
         <span class="sp-name">${s.name}</span>
         <span class="sp-type">${s.type}</span>
@@ -886,7 +902,7 @@ function openSvc(enc){
   document.getElementById('dtBody').innerHTML=`
   <div class="dt-head">
     <div class="dt-top">
-      <div class="dt-badge" style="background:${s.color}">${s.badge}</div>
+      ${logoHtml(s,64,16)}
       <div style="flex:1;min-width:220px">
         <h1 class="dt-name">${s.name}</h1>
         <div class="dt-rating">
@@ -935,11 +951,17 @@ function openSvc(enc){
       <div><dt>カテゴリ</dt><dd>${s.catLabel}</dd></div>
       ${d?`
       <div><dt>運営会社</dt><dd style="font-size:13px">${d.company}</dd></div>
+      <div><dt>設立</dt><dd style="font-size:13px">${d.founded}</dd></div>
+      <div><dt>事業許可</dt><dd style="font-size:13px">${d.license}</dd></div>
       <div><dt>利用料金</dt><dd>${d.fee}</dd></div>
       <div><dt>対応エリア</dt><dd style="font-size:13px">${d.area}</dd></div>
+      <div><dt>拠点</dt><dd style="font-size:13px">${d.offices}</dd></div>
       <div><dt>公開求人数</dt><dd>${d.public}</dd></div>
       <div><dt>非公開求人</dt><dd>${d.private}</dd></div>
       <div><dt>主な対象者</dt><dd style="font-size:13px">${d.target}</dd></div>
+      <div><dt>対応年代</dt><dd style="font-size:13px">${d.ages}</dd></div>
+      <div><dt>面談方法</dt><dd style="font-size:13px">${d.meeting}</dd></div>
+      <div><dt>サポート期間</dt><dd style="font-size:13px">${d.period}</dd></div>
       `:`
       <div><dt>利用料金</dt><dd>無料（求職者）</dd></div>
       <div><dt>対応エリア</dt><dd style="font-size:13px">要確認</dd></div>
@@ -991,7 +1013,7 @@ function openSvc(enc){
     <div class="dt-related">
       ${related.map(r=>`
         <a href="#" onclick="openSvc('${encodeURIComponent(r.name)}');return false;">
-          <span class="rb" style="background:${r.color}">${r.badge}</span>
+          ${logoHtml(r,30,8)}
           <span><span class="rn">${r.name}</span><br><span class="rt">${r.type}</span></span>
         </a>`).join('')}
     </div>
@@ -1004,6 +1026,7 @@ function openSvc(enc){
   document.getElementById('topPage').style.display='none';
   document.getElementById('searchPage').classList.remove('on');
   document.getElementById('detailPage').classList.add('on');
+  currentService=s.name;
   window.scrollTo(0,0);
 }
 function thanks(btn){btn.textContent='参考になった ✓';btn.disabled=true;btn.style.color='var(--good)';btn.style.borderColor='var(--good)';}
@@ -1024,6 +1047,7 @@ document.addEventListener('click',e=>{
 function closeSvc(){
   document.getElementById('detailPage').classList.remove('on');
   document.getElementById('topPage').style.display='';
+  currentService=null;
   window.scrollTo(0,0);
 }
 
@@ -1053,7 +1077,7 @@ function setupSearch(inputId, resultsId){
     const shown=ctx.matches.slice(0,8);
     box.innerHTML=shown.map((s,i)=>`
       <div class="sr-item" data-i="${i}">
-        <span class="sr-badge" style="background:${s.color}">${s.badge}</span>
+        ${logoHtml(s,30,8)}
         <span><span class="sr-name">${s.name}</span><br><span class="sr-type">${s.type} ・ ${s.catLabel}</span></span>
       </div>`).join('') + (ctx.matches.length>8?`<div class="sr-more">他 ${ctx.matches.length-8} 件 … キーワードを絞り込んでください</div>`:'');
     box.classList.add('on');
@@ -1147,7 +1171,27 @@ document.getElementById('occGroups').innerHTML=occGroups.map(g=>`
     <div class="pills">${g.items.map(x=>`<a href="#">${x}</a>`).join('')}</div>
   </div>`).join('');
 
-function openModal(){document.getElementById('overlay').classList.add('on')}
+/* 投稿フォームのサービス選択肢をカテゴリ別に生成 */
+(function buildServiceSelect(){
+  const sel=document.getElementById('postService'); if(!sel)return;
+  const groups={};
+  services.forEach(s=>{(groups[s.catLabel]=groups[s.catLabel]||[]).push(s);});
+  let html='<option value="">選択してください</option>';
+  Object.keys(groups).sort((a,b)=>a.localeCompare(b,'ja')).forEach(g=>{
+    html+=`<optgroup label="${g}">`;
+    groups[g].sort((a,b)=>a.name.localeCompare(b.name,'ja'))
+      .forEach(s=>{html+=`<option value="${s.name}">${s.name}</option>`;});
+    html+='</optgroup>';
+  });
+  html+='<optgroup label="その他"><option value="__other__">リストにない（自由入力で投稿）</option></optgroup>';
+  sel.innerHTML=html;
+})();
+let currentService=null;
+function openModal(){
+  const sel=document.getElementById('postService');
+  if(sel) sel.value=currentService&&services.some(s=>s.name===currentService)?currentService:'';
+  document.getElementById('overlay').classList.add('on');
+}
 function closeModal(){document.getElementById('overlay').classList.remove('on')}
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
 let rating=0;
@@ -1155,7 +1199,13 @@ document.querySelectorAll('#ratepick span').forEach(s=>{
   s.addEventListener('click',()=>{rating=+s.dataset.v;
     document.querySelectorAll('#ratepick span').forEach(x=>x.classList.toggle('on',+x.dataset.v<=rating));});
 });
-function submitReview(){alert('投稿ありがとうございます（プロトタイプのため保存はされません）\\n評価: '+(rating||'-')+'★');closeModal();}
+function submitReview(){
+  const sel=document.getElementById('postService');
+  if(sel && !sel.value){alert('サービス名を選択してください');return;}
+  const nm=sel? (sel.value==='__other__'?'（リストにないサービス）':sel.value) : '';
+  alert('投稿ありがとうございます（プロトタイプのため保存はされません）\n対象: '+nm+'\n評価: '+(rating||'-')+'★');
+  closeModal();
+}
 </script>
 </body>
 </html>
