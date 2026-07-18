@@ -31,10 +31,15 @@ header{position:sticky;top:0;z-index:50;background:rgba(244,245,249,.9);backdrop
 .logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
 .logo .mark{width:26px;height:26px;border-radius:7px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px}
 .nav .links{display:flex;gap:20px;margin-left:auto;font-size:14px;color:var(--muted);font-weight:600}
+.hsearch{position:relative;width:210px;flex-shrink:1}
+.hsearch input{width:100%;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-size:13px;font-family:inherit;outline:0}
+.hsearch input:focus{border-color:var(--brand)}
+.hsearch .searchresults{top:calc(100% + 6px)}
 .nav .links a:hover{color:var(--brand)}
 .nav .post{background:var(--brand);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700}
 .nav .post:hover{background:var(--brand-dk)}
-@media(max-width:760px){.nav .links{display:none}}
+@media(max-width:760px){.nav .links{display:none}.hsearch{margin-left:auto;width:auto;flex:1;max-width:200px}}
+@media(max-width:420px){.nav .post{padding:8px 12px;font-size:12px}.hsearch{max-width:130px}.hsearch input{padding:7px 11px;font-size:12px}}
 
 .hero{padding:60px 0 34px}
 
@@ -85,6 +90,25 @@ header{position:sticky;top:0;z-index:50;background:rgba(244,245,249,.9);backdrop
 .dt-related .rt{font-size:11px;color:var(--muted)}
 .dt-empty{background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;font-size:13px;color:var(--muted)}
 .pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ===== search page ===== */
+.sp-controls{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.sp-input{flex:1;min-width:220px;border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:12px 20px;font-size:14px;font-family:inherit;outline:0}
+.sp-input:focus{border-color:var(--brand)}
+.sp-select{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:12px 16px;font-size:13px;font-family:inherit;font-weight:600;color:var(--ink);outline:0;cursor:pointer}
+.sp-count{font-size:13px;color:var(--muted);margin:16px 0 12px;font-weight:600}
+.sp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.sp-card{display:flex;gap:13px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);cursor:pointer}
+.sp-card:hover{border-color:var(--brand)}
+.sp-badge{width:42px;height:42px;flex:0 0 42px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14px}
+.sp-name{font-weight:800;font-size:15px;margin-bottom:2px}
+.sp-type{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:6px}
+.sp-desc{font-size:12px;color:var(--muted);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.sp-tags{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.sp-tags .ct{font-size:10px;font-weight:700;color:var(--brand-dk);background:#e6ebfb;padding:3px 8px;border-radius:999px}
+.sp-tags .rv{font-size:10px;font-weight:700;color:var(--amber)}
+.sp-none{grid-column:1/-1;background:var(--paper);border:1px dashed var(--line);border-radius:12px;padding:34px;text-align:center;font-size:14px;color:var(--muted)}
+@media(max-width:600px){.sp-grid{grid-template-columns:1fr}.sp-select{width:100%}}
 .pc-box{border-radius:12px;padding:16px 18px}
 .pc-box h4{margin:0 0 10px;font-size:14px}
 .pc-box ul{margin:0;padding-left:18px}
@@ -255,17 +279,41 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#" onclick="closeSvc();return false;"><span class="mark">声</span>利用者の声</a>
+    <a class="logo" href="#" onclick="closeSvc();closeSearchPage();return false;"><span class="mark">声</span>利用者の声</a>
     <nav class="links">
+      <a href="#" onclick="openSearchPage();return false;">転職サイト検索</a>
       <a href="#reviews">口コミ</a>
       <a href="#popular">注目</a>
       <a href="#category">タイプ別</a>
-      <a href="#occupation">職種別</a>
-      <a href="#faq">よくある質問</a>
     </nav>
+    <div class="hsearch">
+      <input type="text" id="hSearchInput" autocomplete="off" placeholder="サービスを検索">
+      <div class="searchresults" id="hSearchResults"></div>
+    </div>
     <a class="post" href="#" onclick="openModal();return false;">口コミを投稿</a>
   </div>
 </header>
+
+<!-- ===== SEARCH PAGE ===== -->
+<div id="searchPage" class="detailpage">
+  <div class="wrap">
+    <nav class="crumb"><a href="#" onclick="closeSearchPage();return false;">ホーム</a><span>/</span>転職サイト検索</nav>
+    <h1 style="font-size:26px;font-weight:800;margin:0 0 6px">転職サイト検索</h1>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 20px">掲載中の<b id="spTotal">0</b>サービスから、カテゴリ・キーワードで絞り込めます。</p>
+
+    <div class="sp-controls">
+      <input type="text" id="spQuery" class="sp-input" placeholder="キーワードで絞り込む（例：看護 / IT / 未経験 / doda）" autocomplete="off">
+      <select id="spSort" class="sp-select">
+        <option value="name">並び順：名前順</option>
+        <option value="review">口コミが多い順</option>
+        <option value="cat">カテゴリ順</option>
+      </select>
+    </div>
+    <div class="catfilter" id="spCats"></div>
+    <div class="sp-count" id="spCount"></div>
+    <div class="sp-grid" id="spGrid"></div>
+  </div>
+</div>
 
 <!-- ===== SERVICE DETAIL PAGE ===== -->
 <div id="detailPage" class="detailpage">
@@ -411,9 +459,13 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
       </div>
       <div>
         <h5>探す</h5>
+        <a href="#" onclick="openSearchPage();return false;">転職サイト検索</a>
         <a href="#reviews">口コミを読む</a>
+        <a href="#popular">注目の転職サービス</a>
+        <a href="#ranking5">口コミ評価ランキング</a>
         <a href="#category">タイプ別</a>
         <a href="#occupation">職種・年代別</a>
+        <a href="#faq">よくある質問</a>
       </div>
       <div>
         <h5>情報</h5>
@@ -747,6 +799,74 @@ const details={
 
 function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
 
+/* ---- 転職サイト検索ページ ---- */
+const spCatOrder=[
+  {key:"all",label:"すべて"},{key:"sougou",label:"総合"},{key:"highclass",label:"ハイクラス"},
+  {key:"it",label:"IT・エンジニア"},{key:"young",label:"20代・第二新卒"},{key:"senior",label:"40代・50代"},
+  {key:"women",label:"女性"},{key:"foreign",label:"外資・グローバル"},{key:"consul",label:"コンサル"},
+  {key:"venture",label:"ベンチャー"},{key:"eigyo",label:"営業"},{key:"apparel",label:"アパレル"},
+  {key:"nurse",label:"看護師"},{key:"pharma",label:"薬剤師"},{key:"hoiku",label:"保育士"},
+  {key:"kaigo",label:"介護"},{key:"coaching",label:"キャリアコーチング"},{key:"app",label:"転職アプリ・スカウト"},
+  {key:"kyujin",label:"求人サイト"},{key:"area",label:"地方特化"}
+];
+let spCat="all";
+function reviewCountFor(name){return reviews.filter(r=>r.svc===name).length;}
+function spRenderCats(){
+  document.getElementById('spCats').innerHTML=spCatOrder.map(c=>{
+    const n=c.key==="all"?services.length:services.filter(s=>s.cat===c.key).length;
+    return `<button class="${c.key===spCat?'active':''}" data-cat="${c.key}">${c.label} <span style="opacity:.7">${n}</span></button>`;
+  }).join('');
+  document.getElementById('spCats').querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click',()=>{spCat=b.dataset.cat;spRenderCats();spRenderList();});
+  });
+}
+function spRenderList(){
+  const q=(document.getElementById('spQuery').value||'').trim();
+  const sort=document.getElementById('spSort').value;
+  let list=spCat==="all"?services.slice():services.filter(s=>s.cat===spCat);
+  if(q){const n=normalizeQ(q);
+    list=list.filter(s=>normalizeQ(s.name+' '+s.type+' '+s.catLabel+' '+s.desc).includes(n));}
+  if(sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name,'ja'));
+  else if(sort==='review') list.sort((a,b)=>reviewCountFor(b.name)-reviewCountFor(a.name)||a.name.localeCompare(b.name,'ja'));
+  else list.sort((a,b)=>a.catLabel.localeCompare(b.catLabel,'ja')||a.name.localeCompare(b.name,'ja'));
+
+  document.getElementById('spCount').textContent=`${list.length}件のサービス`;
+  const grid=document.getElementById('spGrid');
+  if(list.length===0){
+    grid.innerHTML=`<div class="sp-none">条件に合うサービスが見つかりませんでした。<br>キーワードやカテゴリを変えてお試しください。</div>`;
+    return;
+  }
+  grid.innerHTML=list.map(s=>{
+    const rc=reviewCountFor(s.name);
+    return `<div class="sp-card" data-name="${encodeURIComponent(s.name)}">
+      <span class="sp-badge" style="background:${s.color}">${s.badge}</span>
+      <span style="flex:1;min-width:0">
+        <span class="sp-name">${s.name}</span>
+        <span class="sp-type">${s.type}</span>
+        <span class="sp-desc">${s.desc}</span>
+        <span class="sp-tags"><span class="ct">${s.catLabel}</span>${rc?`<span class="rv">★ 口コミ${rc}件</span>`:'<span style="font-size:10px;color:var(--muted)">口コミ募集中</span>'}</span>
+      </span>
+    </div>`;}).join('');
+  grid.querySelectorAll('.sp-card').forEach(c=>{
+    c.addEventListener('click',()=>openSvc(c.dataset.name));
+  });
+}
+function openSearchPage(){
+  document.getElementById('spTotal').textContent=services.length+'件の';
+  document.getElementById('topPage').style.display='none';
+  document.getElementById('detailPage').classList.remove('on');
+  document.getElementById('searchPage').classList.add('on');
+  spRenderCats(); spRenderList();
+  window.scrollTo(0,0);
+}
+function closeSearchPage(){
+  document.getElementById('searchPage').classList.remove('on');
+  document.getElementById('topPage').style.display='';
+  window.scrollTo(0,0);
+}
+document.getElementById('spQuery').addEventListener('input',spRenderList);
+document.getElementById('spSort').addEventListener('change',spRenderList);
+
 /* ---- service detail page ---- */
 function openSvc(enc){
   const name=decodeURIComponent(enc);
@@ -882,20 +1002,32 @@ function openSvc(enc){
   </div>`;
 
   document.getElementById('topPage').style.display='none';
+  document.getElementById('searchPage').classList.remove('on');
   document.getElementById('detailPage').classList.add('on');
   window.scrollTo(0,0);
 }
 function thanks(btn){btn.textContent='参考になった ✓';btn.disabled=true;btn.style.color='var(--good)';btn.style.borderColor='var(--good)';}
+/* 詳細ページ表示中にページ内アンカーを押したらトップへ戻してから移動 */
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');
+  if(!a) return;
+  const id=a.getAttribute('href').slice(1);
+  if(!id) return;
+  const dp=document.getElementById('detailPage');
+  const sp=document.getElementById('searchPage');
+  const onSub=(dp&&dp.classList.contains('on'))||(sp&&sp.classList.contains('on'));
+  if(onSub&&document.getElementById(id)){
+    closeSvc(); closeSearchPage();
+    setTimeout(()=>{const t=document.getElementById(id);if(t&&t.scrollIntoView)t.scrollIntoView({behavior:'smooth'});},60);
+  }
+});
 function closeSvc(){
   document.getElementById('detailPage').classList.remove('on');
   document.getElementById('topPage').style.display='';
   window.scrollTo(0,0);
 }
 
-/* ---- live search ---- */
-const searchInput=document.getElementById('searchInput');
-const searchResults=document.getElementById('searchResults');
-let srActive=-1, srMatches=[];
+/* ---- live search (再利用可能・複数箇所対応) ---- */
 function normalizeQ(s){return s.toLowerCase().replace(/[\s　]/g,'');}
 function searchServices(q){
   const n=normalizeQ(q);
@@ -905,43 +1037,60 @@ function searchServices(q){
     return hay.includes(n);
   });
 }
-function renderResults(){
-  const q=searchInput.value.trim();
-  if(!q){searchResults.classList.remove('on');searchResults.innerHTML='';srMatches=[];return;}
-  srMatches=searchServices(q); srActive=-1;
-  if(srMatches.length===0){
-    searchResults.innerHTML=`<div class="sr-empty">「${q}」に一致するサービスが見つかりませんでした</div>`;
-    searchResults.classList.add('on');return;
+function setupSearch(inputId, resultsId){
+  const input=document.getElementById(inputId);
+  const box=document.getElementById(resultsId);
+  if(!input||!box) return null;
+  const ctx={input,box,active:-1,matches:[]};
+  function render(){
+    const q=input.value.trim();
+    if(!q){box.classList.remove('on');box.innerHTML='';ctx.matches=[];return;}
+    ctx.matches=searchServices(q); ctx.active=-1;
+    if(ctx.matches.length===0){
+      box.innerHTML=`<div class="sr-empty">「${q}」に一致するサービスが見つかりませんでした</div>`;
+      box.classList.add('on');return;
+    }
+    const shown=ctx.matches.slice(0,8);
+    box.innerHTML=shown.map((s,i)=>`
+      <div class="sr-item" data-i="${i}">
+        <span class="sr-badge" style="background:${s.color}">${s.badge}</span>
+        <span><span class="sr-name">${s.name}</span><br><span class="sr-type">${s.type} ・ ${s.catLabel}</span></span>
+      </div>`).join('') + (ctx.matches.length>8?`<div class="sr-more">他 ${ctx.matches.length-8} 件 … キーワードを絞り込んでください</div>`:'');
+    box.classList.add('on');
+    box.querySelectorAll('.sr-item').forEach(el=>{
+      el.addEventListener('mousedown',ev=>{ev.preventDefault();pick(+el.dataset.i);});
+    });
   }
-  const shown=srMatches.slice(0,8);
-  searchResults.innerHTML=shown.map((s,i)=>`
-    <div class="sr-item" data-i="${i}" onmousedown="pickResult(${i})">
-      <span class="sr-badge" style="background:${s.color}">${s.badge}</span>
-      <span><span class="sr-name">${s.name}</span><br><span class="sr-type">${s.type} ・ ${s.catLabel}</span></span>
-    </div>`).join('') + (srMatches.length>8?`<div class="sr-more">他 ${srMatches.length-8} 件 … キーワードを絞り込んでください</div>`:'');
-  searchResults.classList.add('on');
+  function pick(i){
+    const s=ctx.matches[i]; if(!s)return;
+    box.classList.remove('on');
+    input.value='';
+    input.blur();
+    openSvc(encodeURIComponent(s.name));
+  }
+  ctx.pick=pick;
+  ctx.run=()=>{if(ctx.matches.length>0)pick(ctx.active>=0?ctx.active:0);};
+  input.addEventListener('input',render);
+  input.addEventListener('focus',()=>{if(input.value.trim())render();});
+  input.addEventListener('keydown',e=>{
+    const items=box.querySelectorAll('.sr-item');
+    if(e.key==='ArrowDown'){e.preventDefault();ctx.active=Math.min(ctx.active+1,items.length-1);}
+    else if(e.key==='ArrowUp'){e.preventDefault();ctx.active=Math.max(ctx.active-1,0);}
+    else if(e.key==='Enter'){e.preventDefault();ctx.run();return;}
+    else if(e.key==='Escape'){box.classList.remove('on');input.blur();return;}
+    else return;
+    items.forEach((el,idx)=>el.classList.toggle('active',idx===ctx.active));
+  });
+  return ctx;
 }
-function pickResult(i){
-  const s=srMatches[i]; if(!s)return;
-  searchResults.classList.remove('on');
-  searchInput.value=s.name;
-  openSvc(encodeURIComponent(s.name));
-}
-function runSearch(){
-  if(srMatches.length>0){pickResult(srActive>=0?srActive:0);}
-}
-searchInput.addEventListener('input',renderResults);
-searchInput.addEventListener('focus',()=>{if(searchInput.value.trim())renderResults();});
-searchInput.addEventListener('keydown',e=>{
-  const items=searchResults.querySelectorAll('.sr-item');
-  if(e.key==='ArrowDown'){e.preventDefault();srActive=Math.min(srActive+1,items.length-1);}
-  else if(e.key==='ArrowUp'){e.preventDefault();srActive=Math.max(srActive-1,0);}
-  else if(e.key==='Enter'){e.preventDefault();runSearch();return;}
-  else return;
-  items.forEach((el,idx)=>el.classList.toggle('active',idx===srActive));
-});
+const heroSearch=setupSearch('searchInput','searchResults');
+const headerSearch=setupSearch('hSearchInput','hSearchResults');
+function runSearch(){ if(heroSearch) heroSearch.run(); }
 document.addEventListener('click',e=>{
-  if(!e.target.closest('.searchwrap'))searchResults.classList.remove('on');
+  if(!e.target.closest('.searchwrap')&&document.getElementById('searchResults'))
+    document.getElementById('searchResults').classList.remove('on');
+  if(!e.target.closest('.hsearch')&&document.getElementById('hSearchResults'))
+    document.getElementById('hSearchResults').classList.remove('on');
 });
 const reviewCard=r=>`
   <a class="rcard" href="#" onclick="openSvc('${encodeURIComponent(r.svc)}');return false;">
