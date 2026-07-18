@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>利用者の声 | 転職サイト・転職エージェントのリアルな口コミ</title>
+<style>
+:root{
+  --ink:#141b2e;        /* deep navy */
+  --paper:#f4f5f9;      /* cool off-white */
+  --panel:#ffffff;
+  --line:#dde0ea;
+  --brand:#3a56d4;      /* primary — trust blue */
+  --brand-dk:#2740a8;
+  --amber:#e0930c;      /* rating */
+  --muted:#5a6178;
+  --good:#1f9d6b;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(20,27,46,.05),0 10px 26px rgba(20,27,46,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);font-weight:700}
+
+header{position:sticky;top:0;z-index:50;background:rgba(244,245,249,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;gap:24px;height:64px}
+.logo{font-weight:800;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo .mark{width:26px;height:26px;border-radius:7px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:13px}
+.nav .links{display:flex;gap:20px;margin-left:auto;font-size:14px;color:var(--muted);font-weight:600}
+.nav .links a:hover{color:var(--brand)}
+.nav .post{background:var(--brand);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700}
+.nav .post:hover{background:var(--brand-dk)}
+@media(max-width:760px){.nav .links{display:none}}
+
+.hero{padding:60px 0 34px}
+.livestats{display:flex;gap:14px;margin-bottom:22px;flex-wrap:wrap}
+.lstat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 22px;box-shadow:var(--shadow);min-width:180px}
+.lnum{font-size:34px;font-weight:800;color:var(--ink);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.llabel{font-size:12px;color:var(--muted);font-weight:600;margin-top:6px;display:flex;align-items:center;gap:8px}
+.live{display:inline-flex;align-items:center;gap:4px;color:var(--good);font-weight:800;font-size:10px;letter-spacing:.08em}
+.live .dot{width:7px;height:7px;border-radius:50%;background:var(--good);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(31,157,107,.5)}70%{box-shadow:0 0 0 6px rgba(31,157,107,0)}100%{box-shadow:0 0 0 0 rgba(31,157,107,0)}}
+@media(max-width:480px){.lstat{flex:1;min-width:140px;padding:12px 16px}.lnum{font-size:28px}}
+.hero h1{font-size:clamp(28px,5vw,50px);line-height:1.25;margin:14px 0 10px;font-weight:800}
+.hero h1 .hl{color:var(--brand)}
+.hero p.sub{font-size:16px;color:var(--muted);max-width:600px;margin:0 0 24px}
+.searchwrap{position:relative;max-width:640px}
+.searchbar{display:flex;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 8px 8px 20px;max-width:640px;box-shadow:var(--shadow)}
+.searchresults{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;z-index:40;display:none}
+.searchresults.on{display:block}
+.searchresults .sr-item{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;border-bottom:1px solid var(--line)}
+.searchresults .sr-item:last-child{border-bottom:0}
+.searchresults .sr-item:hover,.searchresults .sr-item.active{background:#eef1fb}
+.searchresults .sr-badge{width:30px;height:30px;flex:0 0 30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px}
+.searchresults .sr-name{font-weight:700;font-size:14px}
+.searchresults .sr-type{font-size:11px;color:var(--muted)}
+.searchresults .sr-empty{padding:16px;font-size:13px;color:var(--muted);text-align:center}
+.searchresults .sr-more{padding:10px 16px;font-size:12px;color:var(--muted);background:#f4f5f9;text-align:center}
+.searchbar input{border:0;outline:0;flex:1;font-size:16px;background:transparent}
+.searchbar button{border:0;background:var(--brand);color:#fff;font-weight:700;border-radius:999px;padding:11px 22px;cursor:pointer}
+.searchbar button:hover{background:var(--brand-dk)}
+.stat{margin-top:14px;font-size:13px;color:var(--muted)}.stat b{color:var(--ink)}
+
+section{padding:44px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;gap:16px}
+.sec-head h2{font-size:24px;margin:6px 0 0;font-weight:800}
+.sec-head a.more{font-size:13px;color:var(--brand);font-weight:700}
+
+/* service ranking cards (the centerpiece) */
+.catfilter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.catfilter button{border:1px solid var(--line);background:var(--panel);color:var(--muted);font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer;font-family:inherit}
+.catfilter button:hover{border-color:var(--brand);color:var(--brand)}
+.catfilter button.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+.svc{display:grid;grid-template-columns:1fr;gap:12px}
+.scard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);cursor:pointer;
+  display:grid;grid-template-columns:34px 52px 1fr auto;grid-template-areas:"no badge name score" "no badge desc score";column-gap:14px;row-gap:6px;align-items:center}
+.scard .no{grid-area:no;font-weight:800;color:var(--brand);font-size:22px;text-align:center}
+.scard .logo-badge{grid-area:badge;width:52px;height:52px;border-radius:12px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px}
+.scard .head{grid-area:name}
+.scard .name{font-weight:800;font-size:17px}
+.scard .type{font-size:12px;color:var(--muted);font-weight:600}
+.scard .desc{grid-area:desc;font-size:13px;color:var(--muted)}
+.scard .score{grid-area:score;text-align:right;padding-left:8px}
+.scard .score .big{font-size:26px;font-weight:800;color:var(--amber);line-height:1}
+.scard .score .cnt{font-size:11px;color:var(--muted)}
+.scard .stars{color:var(--amber);font-size:13px;letter-spacing:1px}
+@media(max-width:620px){
+  .scard{grid-template-columns:30px 1fr auto;grid-template-areas:"no name score" "no desc desc";}
+  .scard .logo-badge{display:none}
+  .scard .score{text-align:right}
+}
+
+/* popular list (by access) */
+.popular{list-style:none;counter-reset:pop;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.popular li{counter-increment:pop}
+.popular a{display:flex;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.popular a:hover{border-color:var(--brand)}
+.popular a::before{content:counter(pop);font-weight:800;color:var(--brand);font-size:18px;min-width:22px;text-align:center}
+.popular .pv{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.popular .pname{font-weight:700}
+.popular .ptype{font-size:12px;color:var(--muted)}
+@media(max-width:640px){.popular{grid-template-columns:1fr}}
+
+/* ranking top5 */
+.rank5{list-style:none;counter-reset:r5;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.rank5 li{counter-increment:r5}
+.rank5 a{display:flex;align-items:center;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+.rank5 a:hover{border-color:var(--brand)}
+.rank5 .medal{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;background:var(--muted)}
+.rank5 li:nth-child(1) .medal{background:#d4a017}
+.rank5 li:nth-child(2) .medal{background:#9aa3ad}
+.rank5 li:nth-child(3) .medal{background:#c08457}
+.rank5 .r5body{flex:1;min-width:0}
+.rank5 .r5name{font-weight:800;font-size:16px}
+.rank5 .r5type{font-size:12px;color:var(--muted)}
+.rank5 .r5score{text-align:right;white-space:nowrap}
+.rank5 .r5score .num{font-size:22px;font-weight:800;color:var(--amber);line-height:1}
+.rank5 .r5score .st{color:var(--amber);font-size:12px}
+.rank5 .r5score .cnt{font-size:11px;color:var(--muted)}
+
+/* review cards — auto-scrolling marquee */
+.marquee{position:relative;overflow:hidden;padding:4px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.marquee-track{display:flex;gap:14px;width:max-content;animation:marquee 60s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.rcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;width:300px;flex:0 0 300px}
+.rcard .top{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted)}
+.stars{color:var(--amber);letter-spacing:1px;font-size:14px}
+.tag{display:inline-block;font-size:11px;font-weight:700;color:var(--brand-dk);background:#e6ebfb;padding:3px 9px;border-radius:999px}
+.rcard .body{font-size:14px;color:#232a3d;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.rcard .foot{margin-top:auto;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;border-top:1px dashed var(--line);padding-top:8px}
+.rcard .foot .svcname{font-weight:700;color:var(--ink)}
+@media(prefers-reduced-motion:reduce){.marquee-track{animation:none;flex-wrap:wrap;justify-content:center}}
+
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills a{background:var(--panel);border:1px solid var(--line);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600}
+.pills a:hover{border-color:var(--brand);color:var(--brand)}
+.occ-group{margin-bottom:18px}
+.occ-group:last-child{margin-bottom:0}
+.occ-label{margin:0 0 10px;font-size:13px;font-weight:800;color:var(--muted);letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.occ-label::before{content:"";width:14px;height:2px;background:var(--brand);border-radius:2px}
+
+.cta{background:var(--ink);color:#eef0f8;border-radius:20px;padding:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cta h3{margin:0 0 6px;font-size:22px}
+.cta p{margin:0;color:#b6bdd4;font-size:14px}
+.cta a.btn{background:var(--brand);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px}
+.cta a.btn:hover{background:var(--brand-dk)}
+
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.col h4{margin:6px 0 6px;font-size:16px}.col p{margin:0;font-size:13px;color:var(--muted)}
+.col .ic{width:38px;height:38px;border-radius:10px;background:#e6ebfb;color:var(--brand-dk);display:grid;place-items:center;font-size:18px}
+@media(max-width:760px){.cols{grid-template-columns:1fr}.cta{padding:28px}}
+
+.faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 18px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:700;padding:14px 0;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";float:right;color:var(--brand)}
+.faq details[open] summary::after{content:"−"}
+.faq p{margin:0 0 16px;font-size:14px;color:var(--muted)}
+
+footer{background:var(--ink);color:#b6bdd4;padding:48px 0 30px;margin-top:40px}
+footer .grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:30px}
+footer h5{color:#fff;font-size:14px;margin:0 0 12px}
+footer a{display:block;font-size:13px;padding:4px 0;color:#b6bdd4}footer a:hover{color:#fff}
+footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-size:12px}
+@media(max-width:760px){footer .grid{grid-template-columns:1fr}}
+
+.overlay{position:fixed;inset:0;background:rgba(20,27,46,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.overlay.on{display:flex}
+.modal{background:var(--paper);max-width:520px;width:100%;border-radius:18px;padding:28px;box-shadow:var(--shadow);max-height:90vh;overflow:auto}
+.modal h3{margin:0 0 4px}.modal p.note{font-size:13px;color:var(--muted);margin:0 0 18px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px;font-size:14px;font-family:inherit;background:#fff}
+.field textarea{min-height:90px;resize:vertical}
+.ratepick{display:flex;gap:6px;font-size:26px;color:var(--line);cursor:pointer}
+.ratepick span.on{color:var(--amber)}
+.modal .actions{display:flex;gap:10px;margin-top:8px}
+.modal .actions button{flex:1;border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-dk)}
+.btn-ghost{background:transparent;border:1px solid var(--line)!important;color:var(--muted)}
+.closex{float:right;cursor:pointer;color:var(--muted);font-size:20px;line-height:1}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#"><span class="mark">声</span>利用者の声</a>
+    <nav class="links">
+      <a href="#reviews">口コミ</a>
+      <a href="#popular">注目</a>
+      <a href="#category">タイプ別</a>
+      <a href="#occupation">職種別</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <a class="post" href="#" onclick="openModal();return false;">口コミを投稿</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="livestats" id="liveStats">
+      <div class="lstat">
+        <div class="lnum" id="reviewCount">0</div>
+        <div class="llabel">利用者の口コミ<span class="live"><span class="dot"></span>LIVE</span></div>
+      </div>
+      <div class="lstat">
+        <div class="lnum" id="siteCount">0</div>
+        <div class="llabel">掲載サービス数</div>
+      </div>
+    </div>
+    <span class="eyebrow">Real voices from job seekers</span>
+    <h1>利用者のリアルな声から、<br><span class="hl">転職サイトを選ぶ。</span></h1>
+    <p class="sub">転職サイト・転職エージェント・スカウトサービスを、使った人の匿名口コミで比較。求人の質、担当者の当たり外れ、しつこさまで、登録前に分かる。</p>
+    <div class="searchwrap">
+      <div class="searchbar">
+        <input type="text" id="searchInput" autocomplete="off" placeholder="サービス名・タイプ・職種で検索（例：看護 / IT / ハイクラス / doda）">
+        <button onclick="runSearch()">検索</button>
+      </div>
+      <div class="searchresults" id="searchResults"></div>
+    </div>
+    <div class="stat">すべて匿名で投稿・閲覧できます</div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Reviews</span><h2>みんなの口コミ</h2></div>
+      <a class="more" href="#">すべて見る →</a>
+    </div>
+    <div class="marquee"><div class="marquee-track" id="reviewGrid"></div></div>
+  </div>
+</section>
+
+<!-- POPULAR (by access) -->
+<section id="popular">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Popular</span><h2>注目の転職サービス</h2></div>
+      <a class="more" href="#">すべて見る →</a>
+    </div>
+    <p style="margin:-12px 0 18px;font-size:13px;color:var(--muted)">アクセス数の多い転職サービス</p>
+    <ol class="popular" id="popularList"></ol>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h3>あなたの転職活動の経験を共有しませんか？</h3>
+        <p>「担当者が親身だった」「求人が希望と違った」。正直な口コミが、次に登録する人の判断を助けます。投稿は完全匿名。</p>
+      </div>
+      <a class="btn" href="#" onclick="openModal();return false;">口コミを投稿する</a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY -->
+<section id="category">
+  <div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Type</span><h2>サービスのタイプから探す</h2></div></div>
+    <div class="pills" id="catPills"></div>
+  </div>
+</section>
+
+<!-- OCCUPATION -->
+<section id="occupation" style="background:#eaecf5">
+  <div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">By occupation</span><h2>職種・年代から探す</h2></div></div>
+    <div id="occGroups"></div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section>
+  <div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">About</span><h2>「利用者の声」が選ばれる理由</h2></div></div>
+    <div class="cols">
+      <div class="col"><div class="ic">◎</div><h4>利用者だけの本音</h4><p>実際にそのサービスを使った人の口コミのみ。求人の質、連絡頻度、担当者の対応まで匿名で分かります。</p></div>
+      <div class="col"><div class="ic">▤</div><h4>観点別スコア</h4><p>求人の量・質、担当者の質、サポート体制、しつこさの少なさなど、項目ごとに評価を確認できます。</p></div>
+      <div class="col"><div class="ic">⚖</div><h4>広告に左右されない</h4><p>掲載順は口コミ評価ベース。運営はサービス側からの依頼で順位を操作しません。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:#eaecf5">
+  <div class="wrap faq">
+    <div class="sec-head"><div><span class="eyebrow">FAQ</span><h2>よくある質問</h2></div></div>
+    <details><summary>口コミはサービス運営会社に見られますか？匿名にできますか？</summary><p>投稿は匿名で行えます。投稿者名は表示されず、担当エージェント個人や運営会社にあなたが特定されることはありません。</p></details>
+    <details><summary>まだ転職していなくても投稿できますか？</summary><p>可能です。「登録しただけ」「求人紹介やスカウトを受け取っただけ」「面談だけ受けた」といった段階でも貴重な情報です。投稿時に利用ステータス（登録のみ〜入社・転職まで）を選べます。</p></details>
+    <details><summary>特定の担当者名を書いてもいいですか？</summary><p>個人が特定される情報（実名・部署など）の投稿は禁止しています。対応の傾向は書けますが、個人攻撃はガイドラインにより削除対象です。</p></details>
+    <details><summary>掲載順位はどう決まっていますか？</summary><p>利用者の口コミ評価と件数をもとに算出しています。サービス提供会社からの広告費で順位が上がる仕組みはありません。</p></details>
+  </div>
+</section>
+
+<!-- RANKING TOP5 -->
+<section id="ranking5">
+  <div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Ranking</span><h2>口コミ評価の高いサービス TOP5</h2></div></div>
+    <p style="margin:-10px 0 20px;font-size:13px;color:var(--muted)">利用者の口コミ評価をもとにした総合ランキング</p>
+    <ol class="rank5" id="rank5List"></ol>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section id="bottomcta" style="background:#eaecf5">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h3>あなたの1件が、次の誰かの判断材料になる。</h3>
+        <p>登録だけ・面談だけの経験でも大歓迎です。匿名で、2〜3分で投稿できます。</p>
+      </div>
+      <a class="btn" href="#" onclick="openModal();return false;">口コミを投稿する</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h5>利用者の声</h5>
+        <p style="font-size:13px;color:#b6bdd4;margin:0">転職サイト・エージェントを利用者の口コミで比較する、中立的なレビューサービスです。</p>
+      </div>
+      <div>
+        <h5>探す</h5>
+        <a href="#reviews">口コミを読む</a>
+        <a href="#category">タイプ別</a>
+        <a href="#occupation">職種・年代別</a>
+      </div>
+      <div>
+        <h5>情報</h5>
+        <a href="#">運営ポリシー</a>
+        <a href="#">投稿ガイドライン</a>
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">お問い合わせ</a>
+      </div>
+    </div>
+    <div class="copy">© 2026 利用者の声. プロトタイプ（サンプルデータ）</div>
+  </div>
+</footer>
+
+<!-- SERVICE DETAIL MODAL -->
+<div class="overlay" id="svcOverlay">
+  <div class="modal" id="svcModal">
+    <span class="closex" onclick="closeSvc()">✕</span>
+    <div id="svcModalBody"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <span class="closex" onclick="closeModal()">✕</span>
+    <h3>口コミを投稿する</h3>
+    <p class="note">利用した転職サービスについて。匿名・所要2〜3分。</p>
+    <div class="field"><label>サービス名</label><input type="text" placeholder="例：〇〇エージェント"></div>
+    <div class="field"><label>利用ステータス</label>
+      <select>
+        <option>登録・会員情報の入力のみ</option>
+        <option>求人紹介・スカウトを受け取った</option>
+        <option>キャリア面談を受けた</option>
+        <option>書類添削・面接対策のサポートを受けた</option>
+        <option>求人に応募・面接まで進んだ</option>
+        <option>内定を獲得した（辞退含む）</option>
+        <option>このサービス経由で入社・転職した</option>
+        <option>現在も利用中</option>
+        <option>退会・利用を停止した</option>
+      </select>
+    </div>
+    <div class="field"><label>当時の職種 / 年代</label><input type="text" placeholder="例：ITエンジニア / 20代後半"></div>
+    <div class="field"><label>総合評価</label>
+      <div class="ratepick" id="ratepick">
+        <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+      </div>
+    </div>
+    <div class="field"><label>口コミ本文</label><textarea placeholder="求人の質・量、担当者の対応、連絡の頻度、良かった点・気になった点など。※担当者の実名は書かないでください"></textarea></div>
+    <div class="actions">
+      <button class="btn-ghost" onclick="closeModal()">キャンセル</button>
+      <button class="btn-primary" onclick="submitReview()">投稿する</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const services=[
+  {name:"doda",type:"総合型・エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"DO",url:"https://doda.jp/",score:3.6,cnt:1025,desc:"求人検索・エージェント・スカウトをまとめて使える総合型。年収査定やレジュメビルダーなどの診断ツールも備える。最初の1社として使いやすい。"},
+  {name:"リクルートエージェント",type:"エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"リク",url:"https://www.r-agent.com/",score:4.7,cnt:2260,desc:"非公開求人の紹介、書類添削、面接対策、日程調整まで依頼できる大手エージェント。公開求人数は業界最大級。志望が固まっていなくても広く見られる。"},
+  {name:"マイナビ転職エージェント",type:"エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"マイ",url:"https://mynavi-agent.jp/",score:4.1,cnt:942,desc:"20〜30代前半の若手向け求人と、応募書類の添削・面接対策に強い。中小・地方求人も見たい人向け。"},
+  {name:"マイナビ転職",type:"求人検索型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"マイ",url:"https://tenshoku.mynavi.jp/",score:3.6,cnt:2353,desc:"幅広い業種・職種を自分で検索できる転職サイト。未経験歓迎・若手採用の求人を探しやすい。スカウト機能もあり。"},
+  {name:"パソナキャリア",type:"エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"パソ",url:"https://www.pasonacareer.jp/",score:4.6,cnt:2387,desc:"管理部門・企画・営業・ハイクラス求人を扱う。相談しながら求人を比較でき、条件整理をしたい人向け。"},
+  {name:"リクナビNEXT",type:"求人検索型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"リク",url:"https://next.rikunabi.com/",score:4.1,cnt:3806,desc:"求人検索・気になるリスト・スカウトで自分のペースで進める転職サイト。グッドポイント診断など自己分析ツールも。"},
+  {name:"type",type:"求人検索型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"TY",url:"https://type.jp/",score:4.5,cnt:2234,desc:"首都圏・IT・営業系に強い転職サイト。検索・スカウト・AI求人提案を利用できる。"},
+  {name:"type転職エージェント",type:"エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"TY",url:"https://type.career-agent.jp/",score:4.6,cnt:2307,desc:"首都圏の求人やIT・営業系に強いエージェント。担当者に相談しながら応募先を絞りたい人向け。"},
+  {name:"ワークポート",type:"エージェント型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"ワー",url:"https://www.workport.co.jp/",score:4.8,cnt:957,desc:"未経験や開発系求人を相談しやすい総合型エージェント。IT・ゲーム分野にも強い。"},
+  {name:"エン転職",type:"求人検索型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"エン",url:"https://employment.en-japan.com/",score:3.7,cnt:2698,desc:"取材に基づく詳しい会社情報と口コミが特徴の転職サイト。中小企業求人も豊富。"},
+  {name:"ビズリーチ",type:"スカウト型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"ビズ",url:"https://www.bizreach.jp/",score:4.3,cnt:3504,desc:"企業やヘッドハンターが保有する求人を掲載するハイクラス向けプラットフォーム。年収帯や役職の反応を見られる。"},
+  {name:"リクルートダイレクトスカウト",type:"スカウト型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"リク",url:"https://directscout.recruit.co.jp/",score:4.6,cnt:907,desc:"経験・スキルを登録すると企業やエージェントからスカウトが届く。管理職・専門職・外資・コンサル向け。"},
+  {name:"JACリクルートメント",type:"エージェント型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"JA",url:"https://www.jac-recruitment.jp/",score:3.5,cnt:848,desc:"ミドル・ハイクラス層に強いエージェント。業界・職種ごとに担当が分かれ、採用背景を聞きながら選べる。外資・管理職向け。"},
+  {name:"doda X",type:"スカウト型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"DO",url:"https://doda-x.jp/",score:4.8,cnt:421,desc:"ハイクラス向けスカウトサービス。ヘッドハンターからの提案を受けながら転職先を検討できる。"},
+  {name:"ミドルの転職",type:"スカウト・検索型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"ミド",url:"https://mid-tenshoku.com/",score:4.2,cnt:255,desc:"管理職・経営企画・事業責任者・ITコンサルなどミドル層向け。スカウトと求人検索の両方で使える。"},
+  {name:"クライス＆カンパニー",type:"エージェント型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"クラ",url:"https://www.kandc.com/",score:3.5,cnt:1552,desc:"30代のマネージャー層・ハイクラス転職に強いエージェント。キャリア設計まで相談したい人向け。"},
+  {name:"プロフェッショナルバンク",type:"エージェント型・ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"プロ",url:"https://www.pro-bank.co.jp/",score:3.5,cnt:2800,desc:"経営層・専門職の転職支援に強い。一般公開されにくいポジションを探したい人向け。"},
+  {name:"マイナビジョブ20's",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"マイ",url:"https://mynavi-job20s.jp/",score:3.8,cnt:2051,desc:"20代・第二新卒・既卒に特化。適職診断やキャリア相談を受けながら求人を探せる。社会人経験が浅くても使える。"},
+  {name:"UZUZ（ウズキャリ）",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"UZ",url:"https://uzuz.jp/",score:4.1,cnt:2910,desc:"20代の第二新卒・既卒・未経験転職に特化。キャリア相談や面接対策に時間をかけたい人向け。"},
+  {name:"DYM就職",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"DY",url:"https://www.dshu.jp/",score:4.5,cnt:2090,desc:"既卒・フリーター・ニートなど社会人経験に不安がある人の就職支援。未経験から正社員を目指す人向け。"},
+  {name:"Re就活エージェント",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"RE",url:"https://re-katsu.jp/career/agent/",score:4.2,cnt:1807,desc:"20代・第二新卒向け求人に強いエージェント。正社員経験が浅くても書類・面接を相談しながら進められる。"},
+  {name:"FROM40",type:"求人検索型・ミドルシニア",cat:"senior",catLabel:"40代・50代",color:"#0f766e",badge:"FR",url:"https://www.from-40.jp/",score:3.8,cnt:3483,desc:"40代・50代向けの求人を探せる転職サイト。未経験可求人もあるが条件は求人ごとに差がある。"},
+  {name:"マイナビミドルシニア",type:"求人検索型・ミドルシニア",cat:"senior",catLabel:"40代・50代",color:"#0f766e",badge:"マイ",url:"https://mynavi-ms.jp/",score:4.6,cnt:1259,desc:"40〜60代向け求人を地域別に探せる。応募前に採用対象かを確認できる「ノック機能」あり。"},
+  {name:"doda Woman Career",type:"エージェント型・女性",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"DO",url:"https://doda.jp/woman/",score:4.4,cnt:489,desc:"女性向け求人を探しながらdodaのエージェントサービスも併用できる。書類・面接対策も相談したい人向け。"},
+  {name:"type女性の転職エージェント",type:"エージェント型・女性",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"TY",url:"https://type.woman-agent.jp/",score:4.0,cnt:3277,desc:"女性の転職支援に特化。キャリアアップ、働き方の見直し、ライフイベント後の転職を相談できる。"},
+  {name:"女の転職type",type:"求人検索型・女性",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"女の",url:"https://woman-type.jp/",score:4.3,cnt:696,desc:"正社員で長く働きたい女性向けの求人サイト。育児と両立しやすい求人を探しやすい。"},
+  {name:"レバテックキャリア",type:"エージェント型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"レバ",url:"https://career.levtech.jp/",score:3.9,cnt:316,desc:"ITエンジニア経験者向けの専門エージェント。技術に理解のあるアドバイザーが対応する。"},
+  {name:"Geekly（ギークリー）",type:"エージェント型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"GE",url:"https://www.geekly.co.jp/",score:4.6,cnt:3667,desc:"IT・Web・ゲーム業界に特化したエージェント。エンジニア・クリエイター・IT営業など業界内の職種変更にも。"},
+  {name:"マイナビ転職 ITエージェント",type:"エージェント型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"マイ",url:"https://mynavi-agent.jp/it/",score:4.5,cnt:2682,desc:"ITエンジニア向けの求人紹介・書類添削。若手や、SIerからWeb系へ移りたい人も相談できる。"},
+  {name:"転職サイトGreen",type:"求人検索型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"転職",url:"https://www.green-japan.com/",score:4.0,cnt:3061,desc:"IT・Web企業の求人に強い。企業ページに社員インタビューやオフィス写真があり社風を見やすい。企業と直接やり取りできる。"},
+  {name:"転職ドラフト",type:"スカウト型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"転職",url:"https://job-draft.jp/",score:3.8,cnt:3451,desc:"年収提示付きの指名を受けられるエンジニア向けスカウトサービス。市場価値を測りたい人向け。"},
+  {name:"paiza（パイザ）",type:"スカウト型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"PA",url:"https://paiza.jp/",score:4.5,cnt:1122,desc:"コーディングテストのランクで実力を示せるエンジニア向け転職サービス。"},
+  {name:"Findy",type:"スカウト型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"FI",url:"https://findy-code.io/",score:4.3,cnt:3944,desc:"GitHub連携で技術力を可視化し、マッチする企業からスカウトが届く。"},
+  {name:"Forkwell",type:"スカウト型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"FO",url:"https://forkwell.com/",score:4.0,cnt:3205,desc:"ポートフォリオを見てもらいたいエンジニア向けのスカウト・求人サービス。"},
+  {name:"メイテックネクスト",type:"エージェント型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"メイ",url:"https://www.m-next.jp/",score:4.8,cnt:1845,desc:"メーカー・製造業の技術職に強いエンジニア向けエージェント。"},
+  {name:"ユニゾンキャリア",type:"エージェント型・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"ユニ",url:"https://unison-career.com/",score:4.1,cnt:694,desc:"未経験・第二新卒のIT転職に強いエージェント。学習支援と組み合わせやすい。"},
+  {name:"Midworks",type:"フリーランス・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"MI",url:"https://mid-works.com/",score:3.5,cnt:1376,desc:"保障制度も確認したいフリーランスエンジニア向けのエージェント。"},
+  {name:"レバテックフリーランス",type:"フリーランス・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"レバ",url:"https://freelance.levtech.jp/",score:4.4,cnt:1057,desc:"高単価案件を比較したいフリーランスエンジニア向け。"},
+  {name:"ITプロパートナーズ",type:"フリーランス・IT特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"IT",url:"https://itpropartners.com/",score:3.5,cnt:2592,desc:"週2〜3日案件など柔軟な働き方の案件を探せるフリーランス向け。"},
+  {name:"レバウェル看護",type:"エージェント型・看護師",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"レバ",url:"https://kango-oshigoto.jp/",score:4.9,cnt:974,desc:"国内トップクラスの看護師専門転職サイト。非公開含む約14万件の求人。訪問実績が多く現場のリアルな情報を教えてくれる。"},
+  {name:"ナース専科 転職",type:"エージェント型・看護師",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"ナー",url:"https://www.nursejinzaibank.com/",score:5.0,cnt:2087,desc:"年間10万人以上が利用。全国13拠点の地域専任アドバイザーが対応。求人数は最大級でU・I・Jターンにも。"},
+  {name:"ナースではたらこ",type:"エージェント型・看護師",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"ナー",url:"https://iryo-de-hatarako.net/",score:4.5,cnt:1002,desc:"気になる病院を指名できる「逆指名求人」が特徴。24時間フリーダイヤル対応で夜勤・不規則シフトの人も使いやすい。"},
+  {name:"マイナビ看護師",type:"エージェント型・看護師",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"マイ",url:"https://kango.mynavi.jp/",score:4.5,cnt:794,desc:"病院に加え一般企業・美容クリニック・トラベルナースなど幅広い求人。職場の雰囲気や口コミも教えてくれる。"},
+  {name:"看護roo!",type:"エージェント型・看護師",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"看護",url:"https://www.kango-roo.com/career/",score:4.3,cnt:3352,desc:"利用満足度96.3%。掲載数は業界最大級で質の高い厳選求人が多い。オンライン面談で条件を伝えるだけで紹介を受けられる。"},
+  {name:"ジョブメドレー",type:"スカウト型・医療介護",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"ジョ",url:"https://job-medley.com/",score:4.7,cnt:1244,desc:"医療・介護業界の求人が豊富。スカウト機能が充実し、LINEでも求人を受け取れる。"},
+  {name:"ファルマスタッフ",type:"エージェント型・薬剤師",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ファ",url:"https://www.38-8931.com/",score:4.8,cnt:2445,desc:"薬剤師の転職を20年以上支援。相談満足度96.5%。正社員に加え派遣・パート求人も豊富で、高年収・高時給の検索項目もある。"},
+  {name:"マイナビ薬剤師",type:"エージェント型・薬剤師",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"マイ",url:"https://pharma.mynavi.jp/",score:4.8,cnt:3509,desc:"業界トップクラスの求人数。独占・非公開求人が多く、求人紹介から面接対策・入社後フォローまで対応。"},
+  {name:"レバウェル薬剤師",type:"エージェント型・薬剤師",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"レバ",url:"https://levwell-yakuzaishi-agent.jp/",score:3.6,cnt:673,desc:"医療業界14年以上の実績を持つ薬剤師特化エージェント。取引医療機関数が多く業界に詳しいアドバイザーが対応。"},
+  {name:"リクナビ薬剤師",type:"エージェント型・薬剤師",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"リク",url:"https://www.rikunabi-yakuzaishi.jp/",score:4.1,cnt:1934,desc:"リクルート運営の薬剤師向け転職サイト。正社員・20代向けの求人に強い。"},
+  {name:"薬キャリAGENT",type:"エージェント型・薬剤師",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"薬キ",url:"https://pcareer.m3.com/",score:5.0,cnt:3831,desc:"エムスリー運営。スピーディーな求人紹介が特徴の薬剤師向けエージェント。"},
+  {name:"マイナビ保育士",type:"エージェント型・保育士",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"マイ",url:"https://hoiku.mynavi.jp/",score:3.7,cnt:2082,desc:"初めての転職で担当者に相談しながら進めたい保育士向け。書類添削や面接対策も受けられる。"},
+  {name:"保育士人材バンク",type:"エージェント型・保育士",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://hoiku.jinzaibank.com/",score:4.4,cnt:2961,desc:"職場情報や非公開求人を含めた提案を受けられる保育士向けサービス。"},
+  {name:"保育士ワーカー",type:"エージェント型・保育士",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://hoikushi-worker.com/",score:4.8,cnt:2645,desc:"求人票だけでは分からない職場の雰囲気まで確認したい保育士向け。"},
+  {name:"保育のお仕事",type:"エージェント型・保育士",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://hoiku-shigoto.com/",score:4.8,cnt:2917,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"保育士バンク",type:"エージェント型・保育士",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://www.hoikushibank.com/",score:4.4,cnt:1209,desc:"保育士専門の求人サイト。求人数が多く地域ごとの求人も探しやすい。"},
+  {name:"Indeed",type:"求人検索エンジン",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"IN",url:"https://jp.indeed.com/",score:3.8,cnt:2531,desc:"複数の求人情報をまとめて検索できる求人検索サービス。正社員・アルバイト・パートを横断して見られる。"},
+  {name:"求人ボックス",type:"求人検索エンジン",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"求人",url:"https://xn--pckua2a7gp15o89zb.com/",score:4.3,cnt:3832,desc:"さまざまな求人サイトの情報を横断検索できるサービス。相場を広く見たい人向け。"},
+  {name:"はたらいく",type:"求人検索型・地域",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"はた",url:"https://www.hatalike.jp/",score:4.5,cnt:3026,desc:"リクルート運営。地元・地域密着の中小企業求人に強い求人サイト。"},
+  {name:"ハタラクティブ",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"ハタ",url:"https://hataractive.jp/",score:3.7,cnt:2594,desc:"既卒・フリーター・第二新卒の正社員就職に特化したエージェント。未経験歓迎求人が中心。"},
+  {name:"就職Shop",type:"エージェント型・若手特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"就職",url:"https://www.ss-shop.jp/",score:4.3,cnt:2744,desc:"リクルート運営。書類選考なしで面接に進める、20代・未経験向けの就職支援サービス。"},
+  {name:"ロバート・ウォルターズ",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"ロバ",url:"https://www.robertwalters.co.jp/",score:4.2,cnt:1111,desc:"外資系・グローバル企業の転職に強いエージェント。バイリンガル人材の支援に実績がある。"},
+  {name:"マイケル・ペイジ",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"マイ",url:"https://www.michaelpage.co.jp/",score:4.2,cnt:367,desc:"世界規模のネットワークを持つ外資系専門エージェント。専門職・管理職の求人に強い。"},
+  {name:"ランスタッド",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"ラン",url:"https://www.randstad.co.jp/",score:4.6,cnt:2763,desc:"世界最大級の総合人材サービス。ハイクラス・外資求人を扱う。"},
+  {name:"エンワールド",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"エン",url:"https://www.enworld.com/",score:5.0,cnt:1791,desc:"外資系・グローバル企業に特化。管理職・専門職の転職支援に強い。"},
+  {name:"Morgan McKinley",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"MO",url:"https://www.morganmckinley.com/jp",score:3.7,cnt:1426,desc:"金融・IT・コンサルなどの外資系ポジションに強いエージェント。"},
+  {name:"Apex（エイペックス）",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"AP",url:"https://www.apex.co.jp/",score:5.0,cnt:2535,desc:"外資系・グローバル企業への転職を支援するエージェント。"},
+  {name:"LHH転職エージェント",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"LH",url:"https://jp.lhh.com/",score:3.7,cnt:386,desc:"アデコグループが運営。外資・グローバル企業やハイクラス求人に対応。"},
+  {name:"ヘイズ・ジャパン",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"ヘイ",url:"https://www.hays.co.jp/",score:3.8,cnt:1987,desc:"専門職の人材紹介に特化した外資系エージェント。"},
+  {name:"LinkedIn",type:"スカウト型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"LI",url:"https://jp.linkedin.com/",score:3.7,cnt:2786,desc:"世界最大級のビジネスSNS。外資系企業のスカウトや直接応募に使える。"},
+  {name:"ISSコンサルティング",type:"エージェント型・外資",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"IS",url:"https://www.issconsulting.co.jp/",score:3.6,cnt:3913,desc:"外資系企業への転職支援に実績のあるエージェント。"},
+  {name:"MyVision",type:"エージェント型・コンサル",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"MY",url:"https://my-vision.co.jp/",score:4.3,cnt:3648,desc:"コンサル業界特化のエージェント。ケース面接対策など選考支援が手厚い。"},
+  {name:"アサイン（ASSIGN）",type:"エージェント型・コンサル",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"アサ",url:"https://assign-inc.com/",score:3.7,cnt:2330,desc:"20〜30代のハイエンド層向け。コンサル・事業会社の転職支援に強い。"},
+  {name:"Wantedly",type:"スカウト型・ベンチャー",cat:"venture",catLabel:"ベンチャー",color:"#0d9488",badge:"WA",url:"https://www.wantedly.com/",score:4.9,cnt:2014,desc:"会社の想いやカルチャーで出会うビジネスSNS。ベンチャー・スタートアップ求人が豊富。"},
+  {name:"キープレイヤーズ",type:"エージェント型・ベンチャー",cat:"venture",catLabel:"ベンチャー",color:"#0d9488",badge:"キー",url:"https://keyplayers.jp/",score:4.2,cnt:2359,desc:"ベンチャー・スタートアップの経営幹部・幹部候補の転職支援に強い。"},
+  {name:"フォースタートアップス",type:"エージェント型・ベンチャー",cat:"venture",catLabel:"ベンチャー",color:"#0d9488",badge:"フォ",url:"https://forstartups.com/",score:4.9,cnt:1326,desc:"成長スタートアップへの転職支援に特化したエージェント。"},
+  {name:"hape Agent",type:"エージェント型・営業特化",cat:"eigyo",catLabel:"営業",color:"#dc2626",badge:"HA",url:"https://hape.co.jp/agent/",score:4.9,cnt:1910,desc:"営業職の転職支援に特化したエージェント。営業に絞って相談したい人向け。"},
+  {name:"クリーデンス",type:"エージェント型・アパレル",cat:"apparel",catLabel:"アパレル",color:"#db2777",badge:"クリ",url:"https://www.crede.co.jp/",score:4.1,cnt:2294,desc:"パーソルグループのアパレル・ファッション業界特化エージェント。"},
+  {name:"ファッショーネ",type:"エージェント型・アパレル",cat:"apparel",catLabel:"アパレル",color:"#db2777",badge:"ファ",url:"https://fashione.jp/",score:4.4,cnt:2897,desc:"アパレル・ファッション業界に特化した転職エージェント。"},
+  {name:"キャリート",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"キャ",url:"https://careet.jp/",score:4.3,cnt:1072,desc:"短期離職や転職回数の多さも含めて相談できるキャリアコーチング。"},
+  {name:"ポジウィルキャリア",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"ポジ",url:"https://posiwill.co.jp/career/",score:3.5,cnt:3904,desc:"自己分析やキャリア設計から相談できる代表的なキャリアコーチング。"},
+  {name:"マジキャリ",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"マジ",url:"https://majicari.com/",score:4.3,cnt:1600,desc:"転職支援型のキャリアコーチング。自己分析から応募まで伴走する。"},
+  {name:"キャリドラ",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"キャ",url:"https://caridora.com/",score:4.7,cnt:1124,desc:"年収アップ・キャリアアップを目指す人向けのキャリアコーチング。"},
+  {name:"ライフシフトラボ",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"ライ",url:"https://lifeshiftlab.jp/",score:4.6,cnt:1939,desc:"40代以降の転職・複業を相談できるキャリアコーチング。"},
+  {name:"ZaPASSコーチングキャリア",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"ZA",url:"https://zapass.co/",score:4.9,cnt:1230,desc:"コーチングを軸にキャリアの方向性を整理できるサービス。"},
+  {name:"WorX（ワークス）",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"WO",url:"https://worx.jp/",score:4.7,cnt:252,desc:"学習とセットで異業種転職を目指すキャリアcoaching型サービス。"},
+  {name:"ミイダス",type:"スカウト型・診断",cat:"app",catLabel:"転職アプリ・スカウト",color:"#2563eb",badge:"ミイ",url:"https://miidas.jp/",score:4.4,cnt:3081,desc:"市場価値診断と、企業からの面接確約オファーが特徴のスカウトアプリ。"},
+  {name:"AMBI（アンビ）",type:"スカウト型・若手ハイクラス",cat:"app",catLabel:"転職アプリ・スカウト",color:"#2563eb",badge:"AM",url:"https://en-ambi.com/",score:4.9,cnt:2638,desc:"20〜30代の若手ハイクラス向けスカウトサービス。"},
+  {name:"キャリトレ",type:"スカウト型・若手",cat:"app",catLabel:"転職アプリ・スカウト",color:"#2563eb",badge:"キャ",url:"https://www.careertrek.com/",score:4.2,cnt:1991,desc:"ビズリーチ運営。20代向けのスカウト型転職サービス。"},
+  {name:"ヒューレックス",type:"エージェント型・地方特化",cat:"area",catLabel:"地方特化",color:"#334155",badge:"ヒュ",url:"https://hurex.jp/",score:3.5,cnt:1520,desc:"地方・Uターン/Iターン転職に強い地域密着型エージェント。"},
+  {name:"リージョナルキャリア",type:"エージェント型・地方特化",cat:"area",catLabel:"地方特化",color:"#334155",badge:"リー",url:"https://www.rcareer.jp/",score:3.5,cnt:3512,desc:"地方転職・UIターンに特化した全国ネットワークのエージェント。"},
+  {name:"iDA（アイ・ディ・アクセス）",type:"アパレル特化",cat:"apparel",catLabel:"アパレル",color:"#db2777",badge:"ID",url:"https://tenshoku-antenna.com/ida-mode-reputation",score:4.1,cnt:2190,desc:"アパレル・ファッション業界の転職を支援するサービス。"},
+  {name:"ワコールキャリアサービス",type:"アパレル特化",cat:"apparel",catLabel:"アパレル",color:"#db2777",badge:"ワコ",url:"https://tenshoku-antenna.com/e-wacs-reputation",score:4.9,cnt:1582,desc:"アパレル・ファッション業界の転職を支援するサービス。"},
+  {name:"ほっ介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ほっ",url:"https://tenshoku-antenna.com/hokkaigo-reputation",score:4.0,cnt:3477,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"介護求人ナビ",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"介護",url:"https://tenshoku-antenna.com/kaigo-kyuujin-reputation",score:4.1,cnt:382,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"介護転職ナビ",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"介護",url:"https://tenshoku-antenna.com/kaigo-career-reputation",score:4.3,cnt:3104,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"せんとなびエージェント（介護）",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"せん",url:"https://tenshoku-antenna.com/st-navi-kaigo-reputation",score:4.5,cnt:3290,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"リジョブケア",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"リジ",url:"https://tenshoku-antenna.com/relax-job-kaigo-reputation",score:4.7,cnt:2004,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"かいごGarden",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"かい",url:"https://tenshoku-antenna.com/kaigo-garden-reputation",score:4.9,cnt:2638,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ジョブメドレー介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ジョ",url:"https://tenshoku-antenna.com/job-medley-kaigo-reputation",score:4.9,cnt:2326,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ウィルオブ介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ウィ",url:"https://tenshoku-antenna.com/kaigo-work-reputation",score:3.7,cnt:458,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ベネッセキャリオス介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ベネ",url:"https://tenshoku-antenna.com/kaigo-benesse-mcm-reputation",score:4.8,cnt:573,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"キャリアインデックス介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"キャ",url:"https://tenshoku-antenna.com/careerindex-caregiver-reputation",score:5.0,cnt:3903,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ミラクス介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ミラ",url:"https://tenshoku-antenna.com/kaigo-miraxs-reputation",score:4.1,cnt:286,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"MC-介護のお仕事",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"MC",url:"https://tenshoku-antenna.com/mc-kaigo-reputation",score:5.0,cnt:3639,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ケアジョブ",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ケア",url:"https://tenshoku-antenna.com/mjc-carejob-reputation",score:3.6,cnt:3281,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"e介護転職",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"E介",url:"https://tenshoku-antenna.com/ekaigotenshoku-reputation",score:4.7,cnt:3660,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"リスジョブ",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"リス",url:"https://tenshoku-antenna.com/lisujob-reputation",score:3.9,cnt:1652,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"クリックジョブ介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"クリ",url:"https://tenshoku-antenna.com/kaigo-clickjob-reputation",score:4.3,cnt:3808,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"ウェルミージョブ",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"ウェ",url:"https://tenshoku-antenna.com/kaigojob-reputation",score:4.5,cnt:1306,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"かいご畑",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"かい",url:"https://tenshoku-antenna.com/kaigobatake-reputation",score:4.3,cnt:736,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"レバウェル介護",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"レバ",url:"https://tenshoku-antenna.com/job-kiracare-reputation",score:3.9,cnt:1156,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"マイナビ介護職",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"マイ",url:"https://tenshoku-antenna.com/kaigoshoku-mynavi-reputation",score:4.1,cnt:1022,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"介護ワーカー",type:"介護特化",cat:"kaigo",catLabel:"介護",color:"#0f766e",badge:"介護",url:"https://tenshoku-antenna.com/kaigoworker-reputation",score:4.7,cnt:2156,desc:"介護職向けの求人紹介・転職支援を行うサービス。施設形態や勤務条件で求人を探せる。"},
+  {name:"保育Fine!",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://tenshoku-antenna.com/hoiku-fine-reputation",score:4.8,cnt:1205,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"保育士コンシェル",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://tenshoku-antenna.com/job-hoikushiconcier-reputation",score:3.8,cnt:2875,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ほいくジョブ",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ほい",url:"https://tenshoku-antenna.com/hoiku-job-reputation",score:4.0,cnt:381,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"保育エイド",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://tenshoku-antenna.com/hoiku-aid-reputation",score:5.0,cnt:647,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"クリックジョブ保育",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"クリ",url:"https://tenshoku-antenna.com/hoiku-clickjob-reputation",score:4.9,cnt:3510,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ミラクス保育",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ミラ",url:"https://tenshoku-antenna.com/hoiku-miraxs-reputation",score:4.9,cnt:3558,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ウィルオブ保育",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ウィ",url:"https://tenshoku-antenna.com/willof-childcare-reputation",score:3.7,cnt:810,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"せんとなびエージェント（保育）",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"せん",url:"https://tenshoku-antenna.com/st-navi-hoiku-reputation",score:3.7,cnt:2562,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ほいくisお仕事探し",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ほい",url:"https://tenshoku-antenna.com/hoiku-is-reputation",score:4.3,cnt:1208,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"保育求人ガイド",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"保育",url:"https://tenshoku-antenna.com/hoikukyuujin-reputation",score:4.9,cnt:2798,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ほいく畑",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ほい",url:"https://tenshoku-antenna.com/hoikubatake-reputation",score:3.7,cnt:1410,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ジョブメドレー保育",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ジョ",url:"https://tenshoku-antenna.com/job-medley-hoiku-reputation",score:4.9,cnt:1318,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"ヒトシア保育",type:"保育士特化",cat:"hoiku",catLabel:"保育士",color:"#65a30d",badge:"ヒト",url:"https://tenshoku-antenna.com/hitoshia-hoiku-reputation",score:3.5,cnt:3320,desc:"保育士・幼稚園教諭向けの求人紹介と転職サポートを行うサービス。"},
+  {name:"Findy（ファインディ）",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"FI",url:"https://tenshoku-antenna.com/findy-code-io-reputation",score:3.7,cnt:3298,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"シンシアード",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"シン",url:"https://tenshoku-antenna.com/sincereed-agent-reputation",score:4.3,cnt:1168,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"TechStars Agent",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"TE",url:"https://tenshoku-antenna.com/branding-career-tech-stars-reputation",score:3.6,cnt:1209,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"Direct type",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"DI",url:"https://tenshoku-antenna.com/directtype-reputation",score:4.9,cnt:2662,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"キッカケエージェント",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"キッ",url:"https://tenshoku-antenna.com/kikkakeagent-reputation",score:4.9,cnt:1518,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"テックゴー",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"テッ",url:"https://tenshoku-antenna.com/tech-go-reputation",score:4.9,cnt:2486,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"20代の転職相談所",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"20",url:"https://tenshoku-antenna.com/20tensyoku-reputation",score:4.3,cnt:2304,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"転機",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"転機",url:"https://tenshoku-antenna.com/ten-ki-reputation",score:4.7,cnt:3380,desc:"自己分析やキャリア設計を相談できるキャリアコーチング。"},
+  {name:"Re就活30",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"RE",url:"https://tenshoku-antenna.com/re-katsu30-reputation",score:3.8,cnt:2035,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"マイナビクリエイター",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"マイ",url:"https://tenshoku-antenna.com/mynavi-creator-reputation",score:4.0,cnt:2725,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"Ignite（イグナイト）",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"IG",url:"https://tenshoku-antenna.com/ignitecareer-reputation",score:3.8,cnt:3195,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"リメディ",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"リメ",url:"https://tenshoku-antenna.com/remedy-tokyo-reputation",score:4.8,cnt:2837,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"シニアジョブエージェント",type:"ミドルシニア",cat:"senior",catLabel:"40代・50代",color:"#0f766e",badge:"シニ",url:"https://tenshoku-antenna.com/senior-job-reputation",score:4.2,cnt:3839,desc:"ミドル・シニア層（40〜60代）の転職を支援するサービス。"},
+  {name:"エイジレスエージェント",type:"ミドルシニア",cat:"senior",catLabel:"40代・50代",color:"#0f766e",badge:"エイ",url:"https://tenshoku-antenna.com/agent-ageless-reputation",score:4.5,cnt:1194,desc:"ミドル・シニア層（40〜60代）の転職を支援するサービス。"},
+  {name:"Zキャリア",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"Zキ",url:"https://tenshoku-antenna.com/zcareer-reputation",score:3.9,cnt:3428,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"ミライフ",type:"キャリアコーチング",cat:"coaching",catLabel:"キャリアコーチング",color:"#ea580c",badge:"ミラ",url:"https://tenshoku-antenna.com/miraif-reputation",score:4.4,cnt:2369,desc:"自己分析やキャリア設計を相談できるキャリアコーチング。"},
+  {name:"Izul（イズル）",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"IZ",url:"https://tenshoku-antenna.com/izul-reputation",score:4.4,cnt:3993,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"HUGAN（ヒューガン）",type:"総合型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"HU",url:"https://tenshoku-antenna.com/hugan-reputation",score:4.2,cnt:2471,desc:"幅広い業種・職種を扱う総合型の転職サービス。"},
+  {name:"タイグロンパートナーズ",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"タイ",url:"https://tenshoku-antenna.com/tiglon-partners-reputation",score:3.9,cnt:1644,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"MyVision（マイビジョン）",type:"コンサル特化",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"MY",url:"https://tenshoku-antenna.com/my-vision-reputation",score:3.9,cnt:1844,desc:"コンサル業界への転職を支援するエージェント。"},
+  {name:"Forkwell（フォークウェル）",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"FO",url:"https://tenshoku-antenna.com/forkwell-reputation",score:4.7,cnt:3516,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"しょくばらぼ",type:"求人・口コミサイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"しょ",url:"https://tenshoku-antenna.com/shokuba-mhlw-reputation",score:4.2,cnt:1511,desc:"求人検索や企業口コミなど、転職活動の情報収集に使えるサービス。"},
+  {name:"Ready就活",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"RE",url:"https://tenshoku-antenna.com/frontier-agent-reputation",score:4.1,cnt:3526,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"ゼロタレ",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"ゼロ",url:"https://tenshoku-antenna.com/zerocareer-reputation",score:4.3,cnt:2816,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"Samurai Job",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"SA",url:"https://tenshoku-antenna.com/samuraijob-reputation",score:4.4,cnt:2649,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"メディサーチ",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"メデ",url:"https://tenshoku-antenna.com/medisearc-reputation",score:3.9,cnt:2420,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"JobQ（ジョブキュー）",type:"求人・口コミサイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"JO",url:"https://tenshoku-antenna.com/job-q-reputation",score:5.0,cnt:2991,desc:"求人検索や企業口コミなど、転職活動の情報収集に使えるサービス。"},
+  {name:"アデプト",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"アデ",url:"https://tenshoku-antenna.com/adept-grp-reputation",score:4.0,cnt:3365,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"アズール＆カンパニー",type:"外資・グローバル",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"アズ",url:"https://tenshoku-antenna.com/azureweb-reputation",score:3.6,cnt:793,desc:"外資系・グローバル企業への転職を支援するエージェント。"},
+  {name:"リアルミーキャリア",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"リア",url:"https://tenshoku-antenna.com/realme-career-reputation",score:3.5,cnt:1928,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"Me+転職",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"ME",url:"https://tenshoku-antenna.com/hataraku-j-h-r-reputation",score:4.8,cnt:421,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"QOOLキャリア",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"QO",url:"https://tenshoku-antenna.com/career-qo-ol-reputation",score:3.6,cnt:2777,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"mog career（モグ・キャリア）",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"MO",url:"https://tenshoku-antenna.com/mamalibra-reputation",score:4.7,cnt:2284,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"ウィメンズワーク",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"ウィ",url:"https://tenshoku-antenna.com/women-en-japan-reputation",score:4.8,cnt:2821,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"エン転職WOMAN",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"エン",url:"https://tenshoku-antenna.com/employment-en-japan-woman-reputation",score:4.0,cnt:2933,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"リーベル",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"リー",url:"https://tenshoku-antenna.com/liber-reputation",score:4.3,cnt:2480,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"リネアコンサルティング",type:"コンサル特化",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"リネ",url:"https://tenshoku-antenna.com/lineaconsulting-reputation",score:4.5,cnt:3850,desc:"コンサル業界への転職を支援するエージェント。"},
+  {name:"マイナビ転職金融エージェント",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"マイ",url:"https://tenshoku-antenna.com/mynavi-agent-finance-reputation",score:4.3,cnt:3416,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"ヤマトヒューマンキャピタル",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"ヤマ",url:"https://tenshoku-antenna.com/yamatohc-reputation",score:3.7,cnt:650,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"アンテロープ",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"アン",url:"https://tenshoku-antenna.com/antelope-reputation",score:4.2,cnt:3631,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"社内SE転職ナビ",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"社内",url:"https://tenshoku-antenna.com/se-navi-reputation",score:4.3,cnt:816,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"コンコード",type:"コンサル特化",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"コン",url:"https://tenshoku-antenna.com/concord-group-reputation",score:4.2,cnt:1431,desc:"コンサル業界への転職を支援するエージェント。"},
+  {name:"エグゼクティブリンク",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"エグ",url:"https://tenshoku-antenna.com/executive-link-reputation",score:3.8,cnt:3235,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"ウィルオブテック",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"ウィ",url:"https://tenshoku-antenna.com/willof-reputation",score:4.1,cnt:3174,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"アイデアキャリア",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"アイ",url:"https://tenshoku-antenna.com/cloud-link-reputation",score:4.1,cnt:2278,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"KIMINARA（キミナラ）",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"KI",url:"https://tenshoku-antenna.com/kiminara-reputation",score:5.0,cnt:3087,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"えーかおキャリア",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"えー",url:"https://tenshoku-antenna.com/e-kao-reputation",score:3.8,cnt:1435,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"みんなのエージェント",type:"総合型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"みん",url:"https://tenshoku-antenna.com/all-agent-reputation",score:4.9,cnt:3974,desc:"幅広い業種・職種を扱う総合型の転職サービス。"},
+  {name:"エンカイシャの評判",type:"求人・口コミサイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"エン",url:"https://tenshoku-antenna.com/en-hyouban-reputation",score:4.9,cnt:2302,desc:"求人検索や企業口コミなど、転職活動の情報収集に使えるサービス。"},
+  {name:"マイナビスカウティング",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"マイ",url:"https://tenshoku-antenna.com/mynavi-agentsearch-reputation",score:4.1,cnt:2702,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"はじめてのエンジニア",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"はじ",url:"https://tenshoku-antenna.com/hajien-reputation",score:4.3,cnt:3952,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"第二新卒エージェントneo",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"第二",url:"https://tenshoku-antenna.com/daini-agent-reputation",score:4.8,cnt:1293,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"とらばーゆ",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"とら",url:"https://tenshoku-antenna.com/toranet-reputation",score:3.5,cnt:2304,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"エンエージェント",type:"総合型",cat:"sougou",catLabel:"総合",color:"#3a56d4",badge:"エン",url:"https://tenshoku-antenna.com/enagent-reputation",score:4.9,cnt:3158,desc:"幅広い業種・職種を扱う総合型の転職サービス。"},
+  {name:"第二新卒の窓口",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"第二",url:"https://tenshoku-antenna.com/success-spear-reputation",score:4.2,cnt:2895,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"アクシスコンサルティング",type:"コンサル特化",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"アク",url:"https://tenshoku-antenna.com/axc-reputation",score:3.9,cnt:3044,desc:"コンサル業界への転職を支援するエージェント。"},
+  {name:"PaceBox（ペースボックス）",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"PA",url:"https://tenshoku-antenna.com/pacebox-reputation",score:3.6,cnt:3361,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"MS Agent（MS-Japan）",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"MS",url:"https://tenshoku-antenna.com/jmsc-reputation",score:4.7,cnt:2484,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"コトラ（KOTORA）",type:"ハイクラス",cat:"highclass",catLabel:"ハイクラス",color:"#7a3ad4",badge:"コト",url:"https://tenshoku-antenna.com/kotora-reputation",score:4.9,cnt:1926,desc:"管理職・専門職などハイクラス層の転職を支援するサービス。"},
+  {name:"スタクラ（旧アマテラス）",type:"ベンチャー特化",cat:"venture",catLabel:"ベンチャー",color:"#0d9488",badge:"スタ",url:"https://tenshoku-antenna.com/amater-as-reputation",score:4.8,cnt:2405,desc:"ベンチャー・スタートアップへの転職を支援するサービス。"},
+  {name:"ムービン",type:"コンサル特化",cat:"consul",catLabel:"コンサル",color:"#4338ca",badge:"ムー",url:"https://tenshoku-antenna.com/movin-reputation",score:3.9,cnt:2964,desc:"コンサル業界への転職を支援するエージェント。"},
+  {name:"Wantedly（ウォンテッドリー）",type:"ベンチャー特化",cat:"venture",catLabel:"ベンチャー",color:"#0d9488",badge:"WA",url:"https://tenshoku-antenna.com/wantedly-reputation",score:4.1,cnt:1046,desc:"ベンチャー・スタートアップへの転職を支援するサービス。"},
+  {name:"マイナビ転職エージェント（女性の転職）",type:"女性向け",cat:"women",catLabel:"女性",color:"#d43a7a",badge:"マイ",url:"https://tenshoku-antenna.com/mynavi-agent-woman-reputation",score:4.8,cnt:3125,desc:"女性の転職・キャリアを支援するサービス。ライフイベントとの両立も相談できる。"},
+  {name:"JAIC（ジェイック）",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"JA",url:"https://tenshoku-antenna.com/jaic-college-reputation",score:5.0,cnt:3135,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"キャリアスタート",type:"20代・第二新卒特化",cat:"young",catLabel:"20代・第二新卒",color:"#1f9d6b",badge:"キャ",url:"https://tenshoku-antenna.com/careerstart-reputation",score:4.2,cnt:3823,desc:"20代・第二新卒・既卒・フリーターの就職/転職を支援するサービス。"},
+  {name:"エンワールド・ジャパン",type:"外資・グローバル",cat:"foreign",catLabel:"外資・グローバル",color:"#9333ea",badge:"エン",url:"https://tenshoku-antenna.com/enworld-reputation",score:4.8,cnt:1949,desc:"外資系・グローバル企業への転職を支援するエージェント。"},
+  {name:"OpenWork（オープンワーク）",type:"求人・口コミサイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"OP",url:"https://tenshoku-antenna.com/openwork-reputation",score:4.5,cnt:866,desc:"求人検索や企業口コミなど、転職活動の情報収集に使えるサービス。"},
+  {name:"看護プロ",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"看護",url:"https://tenshoku-antenna.com/kango-pro-reputation",score:4.4,cnt:1409,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"MCナースネット",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"MC",url:"https://tenshoku-antenna.com/mc-nurse-reputation",score:3.9,cnt:1124,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"スーパーナース",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"スー",url:"https://tenshoku-antenna.com/supernurse-reputation",score:3.9,cnt:1948,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ナースJJ",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"ナー",url:"https://tenshoku-antenna.com/nursejj-reputation",score:3.6,cnt:2073,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"Nsキャリア",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"NS",url:"https://tenshoku-antenna.com/ns-career-reputation",score:4.1,cnt:2782,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ナースパワー",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"ナー",url:"https://tenshoku-antenna.com/nursepower-reputation",score:4.5,cnt:2130,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"パソナメディカル",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"パソ",url:"https://tenshoku-antenna.com/pasona-medical-reputation",score:4.5,cnt:986,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"看護師ワーカー",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"看護",url:"https://tenshoku-antenna.com/iryouworker-reputation",score:4.3,cnt:3432,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"GUPPY",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"GU",url:"https://tenshoku-antenna.com/guppy-reputation",score:5.0,cnt:2343,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"コメディカルドットコム",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"コメ",url:"https://tenshoku-antenna.com/co-medical-reputation",score:4.5,cnt:2978,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"キララサポート看護",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"キラ",url:"https://tenshoku-antenna.com/kirara-support-kango-reputation",score:3.7,cnt:874,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"美容外科求人ガイド",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"美容",url:"https://tenshoku-antenna.com/biyou-nurse-reputation",score:4.2,cnt:935,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"美容整形ジョブ",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"美容",url:"https://tenshoku-antenna.com/biyo-job-reputation",score:3.9,cnt:1644,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"e看護師求人",type:"看護師特化",cat:"nurse",catLabel:"看護師",color:"#e0930c",badge:"E看",url:"https://tenshoku-antenna.com/ekango-reputation",score:4.5,cnt:2666,desc:"看護師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"お仕事ラボ",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"お仕",url:"https://tenshoku-antenna.com/oshigoto-labo-reputation",score:3.8,cnt:3907,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ファーマキャリア",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ファ",url:"https://tenshoku-antenna.com/pharmacareer-reputation",score:4.4,cnt:3257,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ファゲット",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ファ",url:"https://tenshoku-antenna.com/94929-reputation",score:5.0,cnt:335,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ヤクジョブ.com",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ヤク",url:"https://tenshoku-antenna.com/yakujob-reputation",score:3.6,cnt:2649,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"キャディカル薬剤師.転職",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"キャ",url:"https://tenshoku-antenna.com/cadical-reputation",score:4.6,cnt:403,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"アポプラス薬剤師",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"アポ",url:"https://tenshoku-antenna.com/apoplus-reputation",score:4.2,cnt:3679,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ファル・メイト",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ファ",url:"https://tenshoku-antenna.com/pharmate-reputation",score:4.8,cnt:1997,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"ヤクジョ",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"ヤク",url:"https://tenshoku-antenna.com/yakujo-reputation",score:4.9,cnt:2302,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"寿五郎",type:"薬剤師特化",cat:"pharma",catLabel:"薬剤師",color:"#c2410c",badge:"寿五",url:"https://tenshoku-antenna.com/kotobukigorou-reputation",score:4.9,cnt:3942,desc:"薬剤師向けの求人紹介・転職支援を行うサービス。"},
+  {name:"クラウドリンク",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"クラ",url:"https://tenshoku-antenna.com/cloudlink-cl-reputation",score:4.8,cnt:3629,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"リクルートエージェントIT",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"リク",url:"https://tenshoku-antenna.com/r-agent-it-reputation",score:4.5,cnt:3874,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"paiza転職",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"PA",url:"https://tenshoku-antenna.com/paiza-tenshoku-reputation",score:4.4,cnt:2633,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"テックゲート転職",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"テッ",url:"https://tenshoku-antenna.com/techgate-reputation",score:4.8,cnt:1117,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"ウズカレIT",type:"IT・エンジニア特化",cat:"it",catLabel:"IT・エンジニア",color:"#0891b2",badge:"ウズ",url:"https://tenshoku-antenna.com/uzukare-it-reputation",score:4.9,cnt:1518,desc:"IT・エンジニア領域の転職を支援するサービス。"},
+  {name:"ハローワーク",type:"求人・検索サイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"ハロ",url:"https://tenshoku-antenna.com/hellowork-reputation",score:4.2,cnt:2495,desc:"求人検索や情報収集に使えるサービス。"},
+  {name:"スタンバイ",type:"求人・検索サイト",cat:"kyujin",catLabel:"求人サイト",color:"#475569",badge:"スタ",url:"https://tenshoku-antenna.com/stanby-reputation",score:3.9,cnt:308,desc:"求人検索や情報収集に使えるサービス。"},
+];
+const reviews=[
+  {stars:5,tag:"入社・転職した",body:"初回のキャリア面談で希望を丁寧に整理してくれ、的外れな求人がほとんど来なかった。年収交渉も代行してくれて、提示額が結果的に60万上がった。",svc:"リクルートエージェント",who:"ITエンジニア / 30代前半",date:"2026年7月17日"},
+  {stars:2,tag:"面接まで進んだ",body:"求人票と実際の労働条件に差があった。エージェント経由の情報を鵜呑みにせず自分で条件確認すべきだったと反省。担当は途中で交代した。",svc:"doda",who:"営業 / 20代後半",date:"2026年7月17日"},
+  {stars:4,tag:"スカウトを受け取った",body:"スカウトの質が高く、名前を知らなかった優良企業からもオファーが来た。ただ登録直後はスカウトメールがかなり多いので通知設定は必須。",svc:"ビズリーチ",who:"バックエンドエンジニア / 30代",date:"2026年7月16日"},
+  {stars:1,tag:"利用を停止した",body:"電話やスカウトの連絡がとにかく多く、断ってもしばらく続いた。求人も希望と違う業界が混ざっていた。合わないと感じたら早めに通知設定の見直しを。",svc:"ミイダス",who:"事務職 / 20代前半",date:"2026年7月16日"},
+  {stars:5,tag:"面談を受けた",body:"ハイクラス向けだけあって担当が業界に詳しく、企業ごとの採用背景まで説明してくれた。相談だけのつもりが視野が広がった。",svc:"JACリクルートメント",who:"マーケ職 / 30代後半",date:"2026年7月15日"},
+  {stars:3,tag:"登録のみ",body:"求人数は圧倒的だが、自分で探して応募するスタイル。手厚いサポートを期待すると物足りないかも。診断ツールは面白かった。",svc:"リクナビNEXT",who:"デザイナー / 20代",date:"2026年7月15日"},
+  {stars:5,tag:"現在も利用中",body:"看護師向けだけあって職場のリアルな内情を教えてくれる。夜勤・日勤の希望も細かく汲んでくれて、面談担当の当たりが良かった。",svc:"レバウェル看護",who:"看護師 / 30代",date:"2026年7月14日"},
+  {stars:4,tag:"書類・面接対策を受けた",body:"職務経歴書の添削が具体的で、技術スタックの見せ方まで直してくれた。IT特化だけあって話が早い。",svc:"レバテックキャリア",who:"インフラエンジニア / 30代前半",date:"2026年7月14日"},
+  {stars:2,tag:"求人紹介を受けた",body:"紹介される求人が希望とずれていた。条件を伝え直したら改善したが、最初のヒアリングがやや浅く感じた。",svc:"マイナビ転職エージェント",who:"総合職 / 20代後半",date:"2026年7月13日"},
+  {stars:5,tag:"内定を獲得した",body:"薬剤師向けの派遣・パート求人が豊富で、時給の高い案件を複数比較できた。条件交渉も間に入ってくれた。",svc:"ファルマスタッフ",who:"薬剤師 / 40代",date:"2026年7月13日"},
+  {stars:4,tag:"入社・転職した",body:"企業ページに社員インタビューやオフィス写真があり、求人票では分からない雰囲気がつかめた。カジュアル面談から入れたのが良かった。",svc:"転職サイトGreen",who:"Webエンジニア / 20代後半",date:"2026年7月12日"},
+  {stars:3,tag:"スカウトを受け取った",body:"経歴を登録して待つスタイル。スカウトは来るが職種によって量に差がある。年収帯の相場を知るには役立った。",svc:"リクルートダイレクトスカウト",who:"経営企画 / 30代",date:"2026年7月12日"},
+  {stars:5,tag:"面談を受けた",body:"第二新卒で不安だったが、適職診断とキャリア相談に時間をかけてくれた。未経験職への応募準備まで見てもらえた。",svc:"マイナビジョブ20's",who:"第二新卒 / 20代前半",date:"2026年7月11日"},
+  {stars:2,tag:"登録のみ",body:"保育士向けだが、登録後の連絡がやや多め。求人自体は地域の園が揃っていた。電話が苦手なら連絡手段を先に伝えたほうがいい。",svc:"マイナビ保育士",who:"保育士 / 20代後半",date:"2026年7月11日"},
+  {stars:4,tag:"現在も利用中",body:"自己分析からキャリア設計まで伴走してもらえる。求人紹介はないので、方向性を決めてから転職サービスと併用するのが正解。",svc:"ポジウィルキャリア",who:"企画職 / 30代前半",date:"2026年7月10日"},
+  {stars:5,tag:"入社・転職した",body:"外資への転職で、英文レジュメの添削と面接対策が的確だった。担当がバイリンガルで企業とのやり取りもスムーズ。",svc:"ロバート・ウォルターズ",who:"財務 / 30代後半",date:"2026年7月10日"},
+  {stars:3,tag:"面接まで進んだ",body:"介護職の求人は多いが、施設ごとの内情までは分からなかった。見学を挟んで判断するのがおすすめ。",svc:"レバウェル介護",who:"介護職 / 40代",date:"2026年7月9日"},
+  {stars:4,tag:"求人紹介を受けた",body:"コンサル志望で登録。ケース面接の対策資料が具体的で、想定問答まで用意してくれた。選考のペース管理も助かった。",svc:"アサイン（ASSIGN）",who:"コンサル志望 / 20代後半",date:"2026年7月9日"},
+];
+const cats=["総合型エージェント","IT・エンジニア特化","ハイクラス・管理職","第二新卒・既卒特化","20代・若手特化","女性向け特化","看護師・医療特化","薬剤師特化","保育士・幼稚園特化","介護・福祉特化","販売・アパレル特化","飲食・フード特化","建設・不動産特化","製造・技術職特化","管理部門・士業特化","外資・グローバル","地方・UIターン","フリーランス・副業","転職サイト（自己応募）","スカウト・ダイレクト"];
+const occGroups=[
+  {label:"IT・専門職",items:["ITエンジニア","Web・クリエイティブ","デザイナー","マーケティング","データ・AI"]},
+  {label:"ビジネス職",items:["営業","企画・管理","経理・財務","人事・総務","コンサルタント"]},
+  {label:"医療・福祉",items:["看護師","薬剤師","医師","理学療法士・OT","介護職","保育士","栄養士"]},
+  {label:"サービス・販売",items:["販売・接客","アパレル","飲食・フード","美容・エステ","ブライダル"]},
+  {label:"技術・現場",items:["製造・工場","建設・施工管理","電気・機械","ドライバー・物流","農業・一次産業"]},
+  {label:"年代・状況",items:["20代","30代","40代以上","第二新卒","既卒・フリーター","未経験からの転職","子育て中・時短","ハイクラス（年収600万〜）"]},
+];
+const popular=[
+  {name:"doda",type:"総合型・エージェント型",pv:"18,420"},
+  {name:"リクルートエージェント",type:"エージェント型",pv:"16,905"},
+  {name:"ビズリーチ",type:"スカウト型・ハイクラス",pv:"13,662"},
+  {name:"レバウェル看護",type:"エージェント型・看護師",pv:"9,204"},
+  {name:"レバテックキャリア",type:"エージェント型・IT特化",pv:"7,781"},
+  {name:"マイナビ薬剤師",type:"エージェント型・薬剤師",pv:"6,340"},
+];
+
+function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
+
+/* ---- service ranking with category filter + detail modal ---- */
+function openSvc(enc){
+  const name=decodeURIComponent(enc);
+  const s=services.find(x=>x.name===name); if(!s)return;
+  document.getElementById('svcModalBody').innerHTML=`
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:12px">
+      <div class="logo-badge" style="background:${s.color};width:56px;height:56px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px">${s.badge}</div>
+      <div>
+        <h3 style="margin:0">${s.name}</h3>
+        <div style="font-size:13px;color:var(--muted);font-weight:600">${s.type}</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:18px;align-items:baseline;margin-bottom:14px">
+      <div><span style="font-size:28px;font-weight:800;color:var(--amber);line-height:1">${s.score.toFixed(1)}</span> <span class="stars" style="color:var(--amber)">${starStr(Math.round(s.score))}</span></div>
+      <div style="font-size:12px;color:var(--muted)">口コミ ${s.cnt.toLocaleString()}件 ・ カテゴリ：${s.catLabel}</div>
+    </div>
+    <p style="font-size:14px;color:#232a3d;line-height:1.75;margin:0 0 16px">${s.desc}</p>
+    <div style="background:#f0f2fa;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--muted)">
+      このページの★評価・口コミ件数はサンプルデータです。実際の口コミは利用者の投稿で構成される想定です。
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="${s.url}" target="_blank" rel="noopener" class="btn-primary" style="flex:1;text-align:center;border-radius:10px;padding:12px;font-weight:700;text-decoration:none;min-width:140px">公式サイトを見る ↗</a>
+      <button class="btn-primary" style="flex:1;min-width:140px;border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer;background:var(--ink)" onclick="closeSvc();openModal();">このサービスの口コミを書く</button>
+    </div>`;
+  document.getElementById('svcOverlay').classList.add('on');
+}
+function closeSvc(){document.getElementById('svcOverlay').classList.remove('on');}
+document.getElementById('svcOverlay').addEventListener('click',e=>{if(e.target.id==='svcOverlay')closeSvc();});
+
+/* ---- live search ---- */
+const searchInput=document.getElementById('searchInput');
+const searchResults=document.getElementById('searchResults');
+let srActive=-1, srMatches=[];
+function normalizeQ(s){return s.toLowerCase().replace(/[\s　]/g,'');}
+function searchServices(q){
+  const n=normalizeQ(q);
+  if(!n) return [];
+  return services.filter(s=>{
+    const hay=normalizeQ(s.name+' '+s.type+' '+s.catLabel);
+    return hay.includes(n);
+  });
+}
+function renderResults(){
+  const q=searchInput.value.trim();
+  if(!q){searchResults.classList.remove('on');searchResults.innerHTML='';srMatches=[];return;}
+  srMatches=searchServices(q); srActive=-1;
+  if(srMatches.length===0){
+    searchResults.innerHTML=`<div class="sr-empty">「${q}」に一致するサービスが見つかりませんでした</div>`;
+    searchResults.classList.add('on');return;
+  }
+  const shown=srMatches.slice(0,8);
+  searchResults.innerHTML=shown.map((s,i)=>`
+    <div class="sr-item" data-i="${i}" onmousedown="pickResult(${i})">
+      <span class="sr-badge" style="background:${s.color}">${s.badge}</span>
+      <span><span class="sr-name">${s.name}</span><br><span class="sr-type">${s.type} ・ ${s.catLabel}</span></span>
+    </div>`).join('') + (srMatches.length>8?`<div class="sr-more">他 ${srMatches.length-8} 件 … キーワードを絞り込んでください</div>`:'');
+  searchResults.classList.add('on');
+}
+function pickResult(i){
+  const s=srMatches[i]; if(!s)return;
+  searchResults.classList.remove('on');
+  searchInput.value=s.name;
+  openSvc(encodeURIComponent(s.name));
+}
+function runSearch(){
+  if(srMatches.length>0){pickResult(srActive>=0?srActive:0);}
+}
+searchInput.addEventListener('input',renderResults);
+searchInput.addEventListener('focus',()=>{if(searchInput.value.trim())renderResults();});
+searchInput.addEventListener('keydown',e=>{
+  const items=searchResults.querySelectorAll('.sr-item');
+  if(e.key==='ArrowDown'){e.preventDefault();srActive=Math.min(srActive+1,items.length-1);}
+  else if(e.key==='ArrowUp'){e.preventDefault();srActive=Math.max(srActive-1,0);}
+  else if(e.key==='Enter'){e.preventDefault();runSearch();return;}
+  else return;
+  items.forEach((el,idx)=>el.classList.toggle('active',idx===srActive));
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.searchwrap'))searchResults.classList.remove('on');
+});
+const reviewCard=r=>`
+  <a class="rcard" href="#">
+    <div class="top"><span class="tag">${r.tag}</span><span>${r.date}</span></div>
+    <div class="stars">${starStr(r.stars)} <span style="color:var(--muted);font-size:12px">${r.stars}.0</span></div>
+    <div class="body">${r.body}</div>
+    <div class="foot"><span class="svcname">${r.svc}</span><span>${r.who}</span></div>
+  </a>`;
+document.getElementById('reviewGrid').innerHTML=(reviews.map(reviewCard).join('')).repeat(2);
+document.getElementById('popularList').innerHTML=popular.map(p=>`
+  <li><a href="#"><span><span class="pname">${p.name}</span><br><span class="ptype">${p.type}</span></span><span class="pv">閲覧 ${p.pv}</span></a></li>`).join('');
+const rank5=[
+  {name:"リクルートエージェント",type:"エージェント型",score:4.8,cnt:3120},
+  {name:"doda",type:"総合型・エージェント型",score:4.7,cnt:2840},
+  {name:"レバウェル看護",type:"エージェント型・看護師",score:4.6,cnt:1980},
+  {name:"レバテックキャリア",type:"エージェント型・IT特化",score:4.6,cnt:1460},
+  {name:"ビズリーチ",type:"スカウト型・ハイクラス",score:4.5,cnt:2210},
+];
+document.getElementById('rank5List').innerHTML=rank5.map((r,i)=>`
+  <li><a href="#">
+    <span class="medal">${i+1}</span>
+    <span class="r5body"><span class="r5name">${r.name}</span><br><span class="r5type">${r.type}</span></span>
+    <span class="r5score"><span class="num">${r.score.toFixed(1)}</span> <span class="st">${starStr(Math.round(r.score))}</span><br><span class="cnt">口コミ ${r.cnt.toLocaleString()}件</span></span>
+  </a></li>`).join('');
+
+/* ---- live stats ---- */
+let reviewTotal = 338;                   // 口コミ総数（リリース初期値）
+const siteTotal = services.length;       // 掲載サービス数（実データ）
+function animateCount(el, target, dur=1400){
+  const start=performance.now(), from=0;
+  function step(now){
+    const p=Math.min((now-start)/dur,1);
+    const eased=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(from+(target-from)*eased).toLocaleString();
+    if(p<1)requestAnimationFrame(step); else el.textContent=target.toLocaleString();
+  }
+  requestAnimationFrame(step);
+}
+animateCount(document.getElementById('reviewCount'), reviewTotal);
+animateCount(document.getElementById('siteCount'), siteTotal);
+// 新しい投稿がまれに入る演出（低頻度・+1ずつ）
+setInterval(()=>{
+  if(Math.random()<0.5) return;          // たまにだけ増える
+  reviewTotal += 1;
+  const el=document.getElementById('reviewCount');
+  el.textContent=reviewTotal.toLocaleString();
+  el.style.color='var(--good)';
+  setTimeout(()=>{el.style.transition='color .8s'; el.style.color='';},150);
+}, 22000);
+document.getElementById('catPills').innerHTML=cats.map(x=>`<a href="#">${x}</a>`).join('');
+document.getElementById('occGroups').innerHTML=occGroups.map(g=>`
+  <div class="occ-group">
+    <h4 class="occ-label">${g.label}</h4>
+    <div class="pills">${g.items.map(x=>`<a href="#">${x}</a>`).join('')}</div>
+  </div>`).join('');
+
+function openModal(){document.getElementById('overlay').classList.add('on')}
+function closeModal(){document.getElementById('overlay').classList.remove('on')}
+document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closeModal()});
+let rating=0;
+document.querySelectorAll('#ratepick span').forEach(s=>{
+  s.addEventListener('click',()=>{rating=+s.dataset.v;
+    document.querySelectorAll('#ratepick span').forEach(x=>x.classList.toggle('on',+x.dataset.v<=rating));});
+});
+function submitReview(){alert('投稿ありがとうございます（プロトタイプのため保存はされません）\\n評価: '+(rating||'-')+'★');closeModal();}
+</script>
+</body>
+</html>
