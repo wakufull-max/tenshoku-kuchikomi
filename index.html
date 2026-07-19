@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>利用者の声 | 転職サイト・転職エージェントのリアルな口コミ</title>
+<title>転職のリアル | 転職サイト・転職エージェントのリアルな口コミ</title>
 <style>
 :root{
   --ink:#141b2e;        /* deep navy */
@@ -39,8 +39,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(244,245,249,.9);backdrop
 .nav .links a:hover{color:var(--brand)}
 .nav .post{background:var(--brand);color:#fff;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700}
 .nav .post:hover{background:var(--brand-dk)}
-@media(max-width:760px){.nav .links{display:none}.hsearch{margin-left:auto;width:auto;flex:1;max-width:200px}}
-@media(max-width:420px){.nav .post{padding:8px 12px;font-size:12px}.hsearch{max-width:130px}.hsearch input{padding:7px 11px;font-size:12px}}
+@media(max-width:760px){.nav .links{display:none}.hsearch{margin-left:auto;width:auto;flex:1;max-width:none}}
+@media(max-width:420px){.nav .post{padding:9px 13px;font-size:13px;white-space:nowrap}.hsearch input{padding:9px 13px;font-size:14px}}
 
 .hero{padding:60px 0 34px}
 
@@ -273,7 +273,10 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 
 .overlay{position:fixed;inset:0;background:rgba(20,27,46,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
 .overlay.on{display:flex}
-.modal{background:var(--paper);max-width:520px;width:100%;border-radius:18px;padding:28px;box-shadow:var(--shadow);max-height:90vh;overflow:auto}
+.modal{background:var(--paper);max-width:520px;width:100%;border-radius:18px;box-shadow:var(--shadow);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.modal-head{padding:26px 28px 0;flex:0 0 auto}
+.modal-body{padding:0 28px;overflow-y:auto;flex:1 1 auto;-webkit-overflow-scrolling:touch}
+.modal-foot{padding:14px 28px calc(14px + env(safe-area-inset-bottom));flex:0 0 auto;background:var(--paper);border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(20,27,46,.06)}
 .modal h3{margin:0 0 4px}.modal p.note{font-size:13px;color:var(--muted);margin:0 0 18px}
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
@@ -281,18 +284,47 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 .field textarea{min-height:90px;resize:vertical}
 .ratepick{display:flex;gap:6px;font-size:26px;color:var(--line);cursor:pointer}
 .ratepick span.on{color:var(--amber)}
-.modal .actions{display:flex;gap:10px;margin-top:8px}
+.modal .actions{display:flex;gap:10px;margin:0}
 .modal .actions button{flex:1;border:0;border-radius:10px;padding:12px;font-weight:700;cursor:pointer}
 .btn-primary{background:var(--brand);color:#fff}.btn-primary:hover{background:var(--brand-dk)}
 .btn-ghost{background:transparent;border:1px solid var(--line)!important;color:var(--muted)}
 .closex{float:right;cursor:pointer;color:var(--muted);font-size:20px;line-height:1}
+
+/* contribute */
+.contrib{background:linear-gradient(180deg,#fff,var(--paper));border:1px solid var(--line);border-radius:20px;padding:34px 28px;box-shadow:var(--shadow)}
+.contrib-head{text-align:center;max-width:560px;margin:0 auto 26px}
+.contrib-head h2{margin:6px 0 10px;font-size:23px;line-height:1.45}
+.contrib-head p{margin:0;font-size:14px;color:var(--muted);line-height:1.8}
+.contrib-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.cstep{display:flex;gap:11px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px}
+.cnum{flex:0 0 26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+.cstep strong{display:block;font-size:14px;color:var(--ink);margin-bottom:3px}
+.cstep span{font-size:12px;color:var(--muted);line-height:1.6}
+.contrib-topics{text-align:center;margin-bottom:24px}
+.ctopic-label{display:block;font-size:12px;color:var(--muted);margin-bottom:10px}
+.ctopics{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.ctopics span{font-size:12.5px;background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:6px 13px;border-radius:999px}
+.contrib-btn{display:block;width:100%;max-width:340px;margin:0 auto;padding:16px;border:0;border-radius:13px;background:var(--brand);color:#fff;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(58,86,212,.28);transition:transform .15s,box-shadow .15s}
+.contrib-btn:hover{transform:translateY(-1px);box-shadow:0 9px 22px rgba(58,86,212,.34)}
+.contrib-note{text-align:center;font-size:12px;color:var(--muted);margin:13px 0 0}
+@media(max-width:700px){
+  .contrib{padding:26px 18px}
+  .contrib-head h2{font-size:19px}
+  .contrib-steps{grid-template-columns:1fr;gap:9px}
+}
+
+/* 気になった点のクイックタグ */
+.qtags{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.qtags span{font-size:12px;background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:6px 11px;border-radius:999px;cursor:pointer;transition:all .12s}
+.qtags span:hover{border-color:var(--bad);color:var(--bad)}
+.qtags span.on{background:var(--bad);border-color:var(--bad);color:#fff;font-weight:700}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a class="logo" href="#" onclick="closeSvc();closeSearchPage();return false;"><span class="mark">声</span>利用者の声</a>
+    <a class="logo" href="#" onclick="closeSvc();closeSearchPage();return false;"><span class="mark">リ</span>転職のリアル</a>
     <nav class="links">
       <a href="#" onclick="openSearchPage();return false;">転職サイト検索</a>
       <a href="#reviews">口コミ</a>
@@ -300,7 +332,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
       <a href="#category">タイプ別</a>
     </nav>
     <div class="hsearch">
-      <input type="text" id="hSearchInput" autocomplete="off" placeholder="サービスを検索">
+      <input type="text" id="hSearchInput" autocomplete="off" placeholder="サービス名で検索">
       <div class="searchresults" id="hSearchResults"></div>
     </div>
     <a class="post" href="#" onclick="openModal();return false;">口コミを投稿</a>
@@ -387,6 +419,33 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
   </div>
 </section>
 
+<!-- CONTRIBUTE -->
+<section id="contribute">
+  <div class="wrap">
+    <div class="contrib">
+      <div class="contrib-head">
+        <span class="eyebrow">Your Voice</span>
+        <h2>あなたの1件が、次の誰かの判断材料になります</h2>
+        <p>登録前に知りたかったことは、使った人しか書けません。所要2〜3分、完全匿名です。</p>
+      </div>
+      <div class="contrib-steps">
+        <div class="cstep"><span class="cnum">1</span><div><strong>サービスを選ぶ</strong><span>使ったことのある1社を選択</span></div></div>
+        <div class="cstep"><span class="cnum">2</span><div><strong>★で評価</strong><span>どこまで使ったかも選べます</span></div></div>
+        <div class="cstep"><span class="cnum">3</span><div><strong>ひとこと書く</strong><span>短くても十分に役立ちます</span></div></div>
+      </div>
+      <div class="contrib-topics">
+        <span class="ctopic-label">こんなことが書かれています</span>
+        <div class="ctopics">
+          <span>連絡の頻度</span><span>求人の質と量</span><span>担当者の対応</span>
+          <span>面接対策の中身</span><span>条件交渉</span><span>退会のしやすさ</span>
+        </div>
+      </div>
+      <button class="contrib-btn" onclick="openModal()">口コミを投稿する</button>
+      <p class="contrib-note">投稿は匿名で公開されます。担当者の実名は伏せてください。</p>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section>
   <div class="wrap">
@@ -419,7 +478,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 <!-- TRUST -->
 <section>
   <div class="wrap">
-    <div class="sec-head"><div><span class="eyebrow">About</span><h2>「利用者の声」が選ばれる理由</h2></div></div>
+    <div class="sec-head"><div><span class="eyebrow">About</span><h2>「転職のリアル」が選ばれる理由</h2></div></div>
     <div class="cols">
       <div class="col"><div class="ic">◎</div><h4>利用者だけの本音</h4><p>実際にそのサービスを使った人の口コミのみ。求人の質、連絡頻度、担当者の対応まで匿名で分かります。</p></div>
       <div class="col"><div class="ic">▤</div><h4>観点別スコア</h4><p>求人の量・質、担当者の質、サポート体制、しつこさの少なさなど、項目ごとに評価を確認できます。</p></div>
@@ -439,14 +498,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
   </div>
 </section>
 
-<!-- RANKING TOP5 -->
-<section id="ranking5">
-  <div class="wrap">
-    <div class="sec-head"><div><span class="eyebrow">Ranking</span><h2>口コミ評価の高いサービス TOP5</h2></div></div>
-    <p style="margin:-10px 0 20px;font-size:13px;color:var(--muted)">利用者の口コミ評価をもとにした総合ランキング</p>
-    <ol class="rank5" id="rank5List"></ol>
-  </div>
-</section>
+
 
 <!-- BOTTOM CTA -->
 <section id="bottomcta" style="background:#eaecf5">
@@ -467,7 +519,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
   <div class="wrap">
     <div class="grid">
       <div>
-        <h5>利用者の声</h5>
+        <h5>転職のリアル</h5>
         <p style="font-size:13px;color:#b6bdd4;margin:0">転職サイト・エージェントを利用者の口コミで比較する、中立的なレビューサービスです。</p>
       </div>
       <div>
@@ -488,7 +540,7 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
         <a href="#">お問い合わせ</a>
       </div>
     </div>
-    <div class="copy">© 2026 利用者の声. プロトタイプ（サンプルデータ）</div>
+    <div class="copy">© 2026 転職のリアル. プロトタイプ（サンプルデータ）</div>
   </div>
 </footer>
 
@@ -496,8 +548,11 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
 <div class="overlay" id="overlay">
   <div class="modal">
     <span class="closex" onclick="closeModal()">✕</span>
-    <h3>口コミを投稿する</h3>
-    <p class="note">利用した転職サービスについて。匿名・所要2〜3分。</p>
+    <div class="modal-head">
+      <h3>口コミを投稿する</h3>
+      <p class="note">利用した転職サービスについて。匿名・所要2〜3分。</p>
+    </div>
+    <div class="modal-body">
     <div class="field"><label>サービス名</label>
       <select id="postService"><option value="">選択してください</option></select>
     </div>
@@ -554,10 +609,31 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
         <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
       </div>
     </div>
-    <div class="field"><label>口コミ本文</label><textarea id="postBody" placeholder="求人の質・量、担当者の対応、連絡の頻度、良かった点・気になった点など。※担当者の実名は書かないでください"></textarea></div>
-    <div class="actions">
-      <button class="btn-ghost" onclick="closeModal()">キャンセル</button>
-      <button class="btn-primary" onclick="submitReview()">投稿する</button>
+    <div class="field">
+      <label>気になった点・注意したい点 <span style="color:var(--bad);font-size:11px;font-weight:700">必須</span></label>
+      <p style="font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.7">登録前に知っておきたかったことを書いてください。ここが次に使う人の判断材料になります。</p>
+      <textarea id="postBody" placeholder="例：電話の頻度が想定より多かった。求人票と実際の条件に差があった。担当者が途中で交代した。退会の導線が分かりにくかった。※担当者の実名は書かないでください"></textarea>
+      <div class="qtags" id="qtagsBad">
+        <span data-t="連絡がしつこかった">連絡がしつこかった</span>
+        <span data-t="求人が希望と違った">求人が希望と違った</span>
+        <span data-t="求人票と実際に差があった">求人票と実際に差があった</span>
+        <span data-t="担当者が途中で代わった">担当者が交代した</span>
+        <span data-t="連絡が来なくなった">連絡が来なくなった</span>
+        <span data-t="退会しづらかった">退会しづらかった</span>
+        <span data-t="求人数が少なかった">求人数が少なかった</span>
+        <span data-t="対応が事務的だった">対応が事務的だった</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>良かった点 <span style="color:var(--muted);font-size:11px">任意</span></label>
+      <textarea id="postGood" rows="2" placeholder="あれば書いてください（空欄でも投稿できます）"></textarea>
+    </div>
+    </div>
+    <div class="modal-foot">
+      <div class="actions">
+        <button class="btn-ghost" onclick="closeModal()">キャンセル</button>
+        <button class="btn-primary" onclick="submitReview()">投稿する</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1143,7 +1219,7 @@ function openSvc(enc){
   const related=services.filter(x=>x.cat===s.cat&&x.name!==s.name).slice(0,6);
   const d=details[s.name];
   const shareUrl=location.href.split('#')[0]+'#service/'+encodeURIComponent(s.name);
-  const shareTxt=encodeURIComponent(s.name+'の口コミ・評判 | 利用者の声');
+  const shareTxt=encodeURIComponent(s.name+'の口コミ・評判 | 転職のリアル');
 
   document.getElementById('dtCrumb').innerHTML=
     `<a href="#" onclick="closeSvc();return false;">ホーム</a><span>/</span>`+
@@ -1420,42 +1496,11 @@ document.getElementById('popularList').innerHTML=popular.map(p=>{
     <span class="pv">${st.cnt?`★${st.avg.toFixed(1)}・口コミ${st.cnt}件`:'口コミ募集中'}</span>
   </a></li>`;}).join('');
 /* 2件以上の口コミがあるサービスを、評価順→件数順で並べて上位5件 */
-function buildRank5(){
-  return Object.keys(svcStats)
-    .filter(n=>services.some(s=>s.name===n) && svcStats[n].cnt>=1)
-    .sort((a,b)=> svcStats[b].avg-svcStats[a].avg || svcStats[b].cnt-svcStats[a].cnt)
-    .slice(0,5)
-    .map(n=>{
-      const s=services.find(x=>x.name===n);
-      return {name:n, type:s.type, score:svcStats[n].avg, cnt:svcStats[n].cnt};
-    });
-}
-let rank5 = buildRank5();
-function renderRank5(){
-  const wrap=document.getElementById('ranking5');
-  if(!rank5.length){
-    document.getElementById('rank5List').innerHTML=
-      `<li style="list-style:none"><div class="dt-empty" style="text-align:center;padding:28px">
-        まだ口コミが集まっていません。<br>
-        <a href="#" onclick="openModal();return false;" style="color:var(--brand);font-weight:700">最初の投稿者になりませんか</a>
-      </div></li>`;
-    return;
-  }
-  document.getElementById('rank5List').innerHTML=rank5.map((r,i)=>`
-  <li><a href="#" onclick="openSvc('${encodeURIComponent(r.name)}');return false;">
-    <span class="medal">${i+1}</span>
-    ${(()=>{const s=services.find(x=>x.name===r.name);return s?logoHtml(s,34,9):'';})()}
-    <span class="r5body"><span class="r5name">${r.name}</span><br><span class="r5type">${r.type}</span></span>
-    <span class="r5score"><span class="num">${r.score.toFixed(1)}</span> <span class="st">${starStr(Math.round(r.score))}</span><br><span class="cnt">口コミ ${r.cnt.toLocaleString()}件</span></span>
-  </a></li>`).join('');
-}
-renderRank5();
+
 
 /* 口コミが増減したとき、全ての件数表示をまとめて更新する */
 function refreshAllCounts(){
   svcStats = buildStats();
-  rank5 = buildRank5();
-  renderRank5();
   const el=document.getElementById('reviewCount');
   if(el) el.textContent = reviews.length.toLocaleString();
   if(document.getElementById('searchPage').classList.contains('show')) spRenderList();
@@ -1512,6 +1557,26 @@ document.querySelectorAll('#ratepick span').forEach(s=>{
   s.addEventListener('click',()=>{rating=+s.dataset.v;
     document.querySelectorAll('#ratepick span').forEach(x=>x.classList.toggle('on',+x.dataset.v<=rating));});
 });
+
+/* 気になった点のクイックタグ */
+(function(){
+  const box=document.getElementById('qtagsBad');
+  if(!box) return;
+  box.querySelectorAll('span').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const ta=document.getElementById('postBody');
+      const t=el.dataset.t;
+      el.classList.toggle('on');
+      if(el.classList.contains('on')){
+        ta.value = ta.value ? ta.value.replace(/\s*$/,'') + '\n' + t + '。' : t + '。';
+      }else{
+        ta.value = ta.value.replace(new RegExp(t+'。\n?'),'').replace(/^\n+/,'');
+      }
+      ta.focus();
+    });
+  });
+})();
+
 function submitReview(){
   const sel=document.getElementById('postService');
   if(sel && !sel.value){alert('サービス名を選択してください');return;}
@@ -1519,7 +1584,10 @@ function submitReview(){
   const nm=sel? (sel.value==='__other__'?'（リストにないサービス）':sel.value) : '';
   const bodyEl=document.getElementById('postBody');
   const body=bodyEl?bodyEl.value.trim():'';
-  if(!body){alert('本文を入力してください');return;}
+  if(!body){alert('気になった点を入力してください');return;}
+  const goodEl=document.getElementById('postGood');
+  const good=goodEl?goodEl.value.trim():'';
+  const full = good ? body + '\n【良かった点】' + good : body;
 
   const job=(document.getElementById('postJob')||{}).value||'';
   const age=(document.getElementById('postAge')||{}).value||'';
@@ -1532,7 +1600,7 @@ function submitReview(){
     reviews.unshift({
       stars: rating,
       tag: tagEl&&tagEl.value ? tagEl.value : '登録のみ',
-      body: body,
+      body: full,
       svc: nm,
       who: who,
       date: `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`
