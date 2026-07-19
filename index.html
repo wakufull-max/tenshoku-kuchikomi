@@ -1013,26 +1013,18 @@ const details={
 
 function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
 
-/* サービスのロゴ。外部通信に依存しない自前SVGで確実に表示し、
-   公式ファビコンが取れた場合だけ上書きする */
+/* サービスのロゴ。公式ファビコンをそのまま表示し、取得できない場合のみ頭文字を出す */
 function logoHtml(s, size, radius){
   const r=radius||Math.round(size*0.26);
-  const fs=Math.round(size*0.40);
-  const svg=encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">`+
-    `<rect width="100" height="100" rx="26" fill="${s.color}"/>`+
-    `<text x="50" y="50" text-anchor="middle" dominant-baseline="central" `+
-    `font-family="system-ui,-apple-system,sans-serif" font-size="40" font-weight="700" fill="#fff">${s.badge}</text>`+
-    `</svg>`);
   let host='';
   try{ if(s.url && s.url.indexOf('tenshoku-antenna.com')===-1) host=new URL(s.url).hostname; }catch(e){}
-  const fav = host ? `https://www.google.com/s2/favicons?sz=64&domain=${host}` : '';
-  return `<span class="svc-logo" style="width:${size}px;height:${size}px;flex:0 0 ${size}px;border-radius:${r}px;overflow:hidden;display:block;position:relative;background:${s.color}">
-    <img src="data:image/svg+xml,${svg}" alt="${s.name}のロゴ"
-      style="width:100%;height:100%;display:block">
-    ${fav?`<img src="${fav}" alt="" loading="lazy" onload="this.style.opacity=1"
-      style="position:absolute;inset:0;margin:auto;width:${Math.round(size*0.60)}px;height:${Math.round(size*0.60)}px;object-fit:contain;opacity:0;transition:opacity .2s;background:#fff;border-radius:${Math.round(r*0.6)}px;padding:${Math.round(size*0.06)}px"
-      onerror="this.remove()">`:''}
+  const fav = host ? `https://www.google.com/s2/favicons?sz=128&domain=${host}` : '';
+  const initial=`<span class="lg-fb" style="display:${fav?'none':'grid'};width:100%;height:100%;place-items:center;background:${s.color};color:#fff;font-weight:800;font-size:${Math.round(size*0.34)}px">${s.badge}</span>`;
+  const img = fav ? `<img src="${fav}" alt="${s.name}のロゴ" loading="lazy"
+      style="width:100%;height:100%;object-fit:contain;display:block"
+      onerror="this.style.display='none';const f=this.parentNode.querySelector('.lg-fb');if(f)f.style.display='grid'">` : '';
+  return `<span class="svc-logo" style="width:${size}px;height:${size}px;flex:0 0 ${size}px;border-radius:${r}px;overflow:hidden;display:grid;place-items:center;background:transparent">
+    ${img}${initial}
   </span>`;
 }
 
@@ -1172,7 +1164,6 @@ function openSvc(enc){
       <div><dt>カテゴリ</dt><dd>${s.catLabel}</dd></div>
       ${d?`
       <div><dt>運営会社</dt><dd style="font-size:13px">${d.company}</dd></div>
-      <div><dt>事業許可</dt><dd style="font-size:13px">${d.license}</dd></div>
       <div><dt>利用料金</dt><dd>${d.fee}</dd></div>
       <div><dt>対応エリア</dt><dd style="font-size:13px">${d.area}</dd></div>
       <div><dt>公開求人数</dt><dd>${d.public}${d.asOf?`<span style="display:block;font-size:10px;color:var(--muted);font-weight:600">${d.asOf}現在${d.trend&&d.trend!=='—'?' ／ '+d.trend:''}</span>`:''}</dd></div>
