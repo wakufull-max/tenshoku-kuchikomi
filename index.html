@@ -514,7 +514,41 @@ footer .copy{border-top:1px solid #26304b;margin-top:30px;padding-top:18px;font-
         <option>退会・利用を停止した</option>
       </select>
     </div>
-    <div class="field"><label>当時の職種 / 年代</label><input type="text" id="postWho" placeholder="例：ITエンジニア / 20代後半"></div>
+    <div class="field"><label>当時の職種</label>
+      <select id="postJob">
+        <option value="">選択してください</option>
+        <optgroup label="営業・販売">
+          <option>営業</option><option>販売・接客</option><option>店舗管理</option>
+        </optgroup>
+        <optgroup label="IT・エンジニア">
+          <option>ITエンジニア</option><option>Webエンジニア</option><option>インフラエンジニア</option>
+          <option>社内SE</option><option>データ・AI関連</option><option>機械・電気エンジニア</option>
+        </optgroup>
+        <optgroup label="管理・専門">
+          <option>経理・財務</option><option>人事・労務</option><option>法務・知財</option>
+          <option>総務・事務</option><option>企画・マーケティング</option><option>コンサルタント</option>
+        </optgroup>
+        <optgroup label="医療・福祉">
+          <option>看護師</option><option>薬剤師</option><option>保育士</option>
+          <option>介護職</option><option>医療事務</option><option>その他医療専門職</option>
+        </optgroup>
+        <optgroup label="その他">
+          <option>クリエイティブ（デザイン等）</option><option>製造・技術職</option>
+          <option>建設・不動産</option><option>物流・ドライバー</option>
+          <option>金融専門職</option><option>教育・保育以外</option>
+          <option>公務員</option><option>その他</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="field"><label>当時の年代</label>
+      <select id="postAge">
+        <option value="">選択してください</option>
+        <option>20代前半</option><option>20代後半</option>
+        <option>30代前半</option><option>30代後半</option>
+        <option>40代前半</option><option>40代後半</option>
+        <option>50代</option><option>60代以上</option>
+      </select>
+    </div>
     <div class="field"><label>総合評価</label>
       <div class="ratepick" id="ratepick">
         <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
@@ -1013,15 +1047,18 @@ const details={
 
 function starStr(n){return "★★★★★".slice(0,n)+"☆☆☆☆☆".slice(0,5-n);}
 
-/* サービスのロゴ。公式ファビコンをそのまま表示し、取得できない場合のみ頭文字を出す */
+/* サービスのロゴ。取得元の解像度を超えて引き伸ばさない（拡大によるボケ防止） */
 function logoHtml(s, size, radius){
   const r=radius||Math.round(size*0.26);
   let host='';
   try{ if(s.url && s.url.indexOf('tenshoku-antenna.com')===-1) host=new URL(s.url).hostname; }catch(e){}
-  const fav = host ? `https://www.google.com/s2/favicons?sz=128&domain=${host}` : '';
+  // 実データは最大64px程度。枠より小さい場合は原寸のまま中央に置く
+  const NATIVE=64;
+  const inner=Math.min(size, NATIVE);
+  const fav = host ? `https://www.google.com/s2/favicons?sz=64&domain=${host}` : '';
   const initial=`<span class="lg-fb" style="display:${fav?'none':'grid'};width:100%;height:100%;place-items:center;background:${s.color};color:#fff;font-weight:800;font-size:${Math.round(size*0.34)}px">${s.badge}</span>`;
   const img = fav ? `<img src="${fav}" alt="${s.name}のロゴ" loading="lazy"
-      style="width:100%;height:100%;object-fit:contain;display:block"
+      style="width:${inner}px;height:${inner}px;max-width:100%;max-height:100%;object-fit:contain;display:block;image-rendering:auto"
       onerror="this.style.display='none';const f=this.parentNode.querySelector('.lg-fb');if(f)f.style.display='grid'">` : '';
   return `<span class="svc-logo" style="width:${size}px;height:${size}px;flex:0 0 ${size}px;border-radius:${r}px;overflow:hidden;display:grid;place-items:center;background:transparent">
     ${img}${initial}
@@ -1484,23 +1521,63 @@ function submitReview(){
   const body=bodyEl?bodyEl.value.trim():'';
   if(!body){alert('本文を入力してください');return;}
 
-  // 一覧・TOP5・統計に即時反映（このプロトタイプではページを閉じるまで保持）
+  const job=(document.getElementById('postJob')||{}).value||'';
+  const age=(document.getElementById('postAge')||{}).value||'';
+  const who=[job,age].filter(Boolean).join(' / ')||'匿名';
+
+  let added=false;
   if(services.some(s=>s.name===nm)){
     const tagEl=document.getElementById('postStatus');
-    const whoEl=document.getElementById('postWho');
     const now=new Date();
     reviews.unshift({
       stars: rating,
       tag: tagEl&&tagEl.value ? tagEl.value : '登録のみ',
       body: body,
       svc: nm,
-      who: whoEl&&whoEl.value ? whoEl.value : '匿名',
+      who: who,
       date: `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日`
     });
     refreshAllCounts();
+    added=true;
   }
-  alert('投稿ありがとうございます（プロトタイプのため保存はされません）\n対象: '+nm+'\n評価: '+(rating||'-')+'★');
   closeModal();
+  showThanks(nm, added);
+}
+
+/* 投稿後の感謝メッセージ */
+function showThanks(svcName, added){
+  const total=reviews.length;
+  const el=document.createElement('div');
+  el.id='thanksOverlay';
+  el.style.cssText='position:fixed;inset:0;background:rgba(20,27,46,.55);display:grid;place-items:center;z-index:200;padding:20px;opacity:0;transition:opacity .2s';
+  el.innerHTML=`
+    <div style="background:var(--panel);border-radius:18px;max-width:420px;width:100%;padding:30px 26px;text-align:center;box-shadow:var(--shadow);transform:translateY(8px);transition:transform .25s" id="thanksCard">
+      <div style="width:62px;height:62px;border-radius:50%;background:rgba(31,157,107,.12);display:grid;place-items:center;margin:0 auto 16px">
+        <span style="font-size:30px">🙏</span>
+      </div>
+      <h3 style="margin:0 0 10px;font-size:19px;color:var(--ink)">口コミありがとうございます</h3>
+      <p style="margin:0 0 6px;font-size:14px;line-height:1.75;color:var(--muted)">
+        あなたの体験は、${svcName}への登録を迷っている人が<br>判断するための材料になります。
+      </p>
+      <p style="margin:0 0 20px;font-size:13px;line-height:1.7;color:var(--muted)">
+        求人票だけでは分からない実際の対応や進み方は、<br>使った人にしか書けません。
+      </p>
+      <div style="background:var(--paper);border-radius:12px;padding:14px;margin-bottom:20px">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:4px">現在の口コミ総数</div>
+        <div style="font-size:26px;font-weight:800;color:var(--brand)">${total.toLocaleString()}<span style="font-size:14px;font-weight:600;margin-left:3px">件</span></div>
+      </div>
+      <button onclick="closeThanks()" style="width:100%;padding:13px;border:0;border-radius:11px;background:var(--brand);color:#fff;font-weight:700;font-size:15px;cursor:pointer">閉じる</button>
+      <button onclick="closeThanks();openModal();" style="width:100%;padding:12px;margin-top:8px;border:1px solid var(--line);border-radius:11px;background:transparent;color:var(--brand);font-weight:700;font-size:14px;cursor:pointer">別のサービスも投稿する</button>
+    </div>`;
+  document.body.appendChild(el);
+  requestAnimationFrame(()=>{el.style.opacity='1';const c=document.getElementById('thanksCard');if(c)c.style.transform='translateY(0)';});
+  el.addEventListener('click',e=>{ if(e.target===el) closeThanks(); });
+}
+function closeThanks(){
+  const el=document.getElementById('thanksOverlay');
+  if(!el) return;
+  el.style.opacity='0';
+  setTimeout(()=>el.remove(),200);
 }
 </script>
 </body>
